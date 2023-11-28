@@ -15,7 +15,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: src/OmniView.tex
+          root_file: OmniView.tex
 
       - name: Upload PDF as Artifact
         uses: actions/upload-artifact@v2
