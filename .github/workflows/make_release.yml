@@ -1,0 +1,40 @@
+name: Compile LaTeX and Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger the workflow on push of tags like v1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: src/OmniView.tex
+
+      - name: Upload PDF as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Compiled-PDF
+          path: src/OmniView.pdf
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Compiled-PDF
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: Compiled-PDF/OmniView.pdf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

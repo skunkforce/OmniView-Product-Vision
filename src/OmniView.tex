@@ -1,0 +1,28 @@
+\documentclass[]{scrartcl}
+\begin{document}
+
+\chapter{Current Idea of OmniView}
+OmniView is planned to be a omniscient data-visualization tool. OmniView itself shouldn't need to know anything about any given data-producer, but should still be able to visualize the information.
+
+In order for OmniView to work this way, there shall be a unified way to interact with an abstract data-producer, such as:
+\begin{enumerate}
+    \item a USB-oscilloscope
+    \item a TCP/IP client, sending a continuous stream
+    \item a USB-logic-analyzer
+    \item a random-number-generator
+    \item a filedescriptor
+\end{enumerate}
+
+Since it is not known at compile-time, which devices will be used at runtime, the code can't be linked statically into OmniView (or any other data-consumer for that matter). Therefor an interface shall be defined, that gets used by the consumer, but the implementation of the data-handling ought to be provided in a dynamically linked library. From here on forward we will refer to this as `DLL` even though `.dll` and `.so` are meant equally. If a windows `.dll` or a linux `.so` is meant specifically, please use the terms `.dll` or `.so`, otherwise `DLL`. Please be aware, that this is not necessarily aquivalent to an actual device-driver with a communication-chanel to the systems kernel.
+
+From my vantage-point, it appears, that all these devices can be abstracted in a certain way, and thus share the same function-calls in a `DLL`.
+There are three requirements I consider _non negotiable_:
+\begin{itemize}
+    \item grab the next block of data from the producer
+    \item a way for the data-producer to deliver meta-information about itself to the consumer (OmniView) - odinthenerd already though of something there
+    \item a way to send control-data from the consumer to the data-producer
+\end{itemize}
+
+
+
+\end{document}
