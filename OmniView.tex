@@ -1,5 +1,6 @@
 \documentclass{scrreprt}
 \usepackage{listings}
+\usepackage[]{graphicx}
 
 \begin{document}
 
@@ -9,6 +10,12 @@ OmniView itself shouldn't need to know anything about any given data-producer at
 OmniView itself shouldn't need to know anythink about any given analysis-tool at compile-time, but should still be able to use an analysis-API. 
 In order for OmniView to work this way, there shall be a structured architectural approach, to enable modular development.
 This includes dataproducer devices as well as analysis-tools.
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
+    \caption[]{Brief overview of the proposed structure}
+    \label{fig:overview}
+\end{figure}
 
 
 There shall be a unified way to interact with an abstract data-producer.
@@ -43,6 +50,13 @@ Due to this uncertainties, a strongly structured memory allocation ideology need
 
 \section[UaDI]{Unified abstract Data\-producer Interface}
 The \textit{Unified abstract Data\-producer Interface} is the protocol that specifies the interprocess\-communication between the con\-sumer and the device, using the \lstinline|DLL|. 
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/interface.pdf}
+    \caption[]{Coarse structure of the DLL-interface}
+    \label{fig:dllinterface}
+\end{figure}
+
 
 
 
