@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Compiled-PDF
-          path: src/OmniView.pdf
+          path: OmniView.pdf
 
   release:
     needs: build
