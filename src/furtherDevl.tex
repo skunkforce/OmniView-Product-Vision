@@ -1,0 +1,7 @@
+\chapter[Further Devl]{Further Development of OmniView}
+OmniView as it is right now has a limited shelf-life. 
+The current version will be deprecated somewhere around summer of 2024.
+It will be replaced by a more modular approach, that consists of two separate pieces, called OmniDaemon and OmniView 2.0.
+OmniView 2.0 will be written in Angular.
+OmniDaemon will still be written in C++ and use the same approach for data-acquisition. 
+The interprocess-communication between the data and the view on the data will be implemented by using websockets for live-streaming, REST for settings and downloading whole files and MQTT-Publishing for sending out alarms and similar fire-and-forget messages. 
