@@ -6,12 +6,12 @@
             "command": "latexmk",
             "args": [
                 "-xelatex",
-                "-outdir=../latex.out",
+                "-outdir=./latex.out/",
                 "OmniView.tex"
             ]
         }
     ],
-    "latex-workshop.latex.outDir": "../latex.out/",
+    "latex-workshop.latex.outDir": "latex.out/",
     "latex-workshop.latex.recipes": [
         {
             "name": "latexmk (xelatex)",

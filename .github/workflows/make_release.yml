@@ -9,19 +9,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v2
+      - name: Install LaTeX
+        run: sudo apt-get install texlive-full
+  
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: OmniView.tex
+        run: |
+          xelatex -output-directory=latex.out OmniView.tex
+          cd latex.out
+          makeglossaries OmniView
+          cd ..
+          xelatex -output-directory=latex.out OmniView.tex
+          mv latex.out/OmniView.pdf ./
 
       - name: Upload PDF as Artifact
         uses: actions/upload-artifact@v2
         with:
           name: Compiled-PDF
           path: OmniView.pdf
+
 
       - name: Create Release
         uses: softprops/action-gh-release@v1

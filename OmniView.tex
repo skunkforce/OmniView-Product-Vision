@@ -1,6 +1,18 @@
 \documentclass{scrreprt}
+\usepackage{glossaries}
 \usepackage{listings}
 \usepackage[]{graphicx}
+
+\newglossaryentry{latex}{
+  name=LaTeX,
+  description={Ein Textsatzsystem}
+}
+\newglossaryentry{consumer}{
+    name=Consumer,
+    description={A program using a UaDI conform DLL to get generated data from a producer or device}
+}
+\makeglossaries
+
 
 \begin{document}
 
@@ -10,6 +22,7 @@ OmniView itself shouldn't need to know anything about any given data-producer at
 OmniView itself shouldn't need to know anythink about any given analysis-tool at compile-time, but should still be able to use an analysis-API. 
 In order for OmniView to work this way, there shall be a structured architectural approach, to enable modular development.
 This includes dataproducer devices as well as analysis-tools.
+
 
 \begin{figure}
     \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
@@ -21,14 +34,14 @@ This includes dataproducer devices as well as analysis-tools.
 There shall be a unified way to interact with an abstract data-producer.
 This includes devices such as:
 \begin{enumerate}
-    \item a USB-oscilloscope
+    \item a USB-oscilloscope \gls{latex}
     \item a TCP/IP client, sending a continuous stream
     \item a USB-logic-analyzer
     \item a random-number-generator
     \item a filedescriptor
 \end{enumerate}
 
-Since it is not known at compile-time, which devices will be used at runtime, the code can't be linked statically into OmniView (or any other data-consumer for that matter). 
+Since it is not known at compile-time, which devices will be used at runtime, the code can't be linked statically into OmniView (or any other data-\gls{consumer} for that matter). 
 Therefor an interface shall be defined, that gets used by the consumer, but the implementation of the data-handling ought to be provided in a dynamically linked library. 
 From here on forward we will refer to this as \lstinline|DLL| even though \lstinline|.dll| and \lstinline|.so| are meant equally. 
 If a windows \lstinline|.dll| or a linux \lstinline|.so| is meant specifically, please use the terms \lstinline|.dll| or \lstinline|.so|, otherwise \lstinline|DLL|. 
@@ -63,6 +76,6 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 
 \input{furtherDevl.tex}
 
-
+\printglossaries
 
 \end{document}
