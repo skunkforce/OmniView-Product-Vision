@@ -1,23 +1,33 @@
 {
-    "latex-workshop.latex.recipe.default": "latexmk (xelatex)",
     "latex-workshop.latex.tools": [
         {
-            "name": "xelatexmk",
-            "command": "latexmk",
+            "name": "xelatex",
+            "command": "xelatex",
             "args": [
-                "-xelatex",
-                "-outdir=./latex.out/",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
                 "OmniView.tex"
+            ]
+        },
+        {
+            "name": "makeglossaries",
+            "command": "makeglossaries",
+            "args": [
+                "OmniView"
             ]
         }
     ],
-    "latex-workshop.latex.outDir": "latex.out/",
     "latex-workshop.latex.recipes": [
         {
-            "name": "latexmk (xelatex)",
+            "name": "xelatex ➞ makeglossaries ➞ xelatex",
             "tools": [
-                "xelatexmk"
+                "xelatex",
+                "makeglossaries",
+                "xelatex"
             ]
         }
-    ]
+    ],
+    "latex-workshop.latex.recipe.default": "xelatex ➞ makeglossaries ➞ xelatex",
+    "latex-workshop.latex.outDir": "latex.out"
 }
