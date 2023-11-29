@@ -23,6 +23,40 @@ OmniView itself shouldn't need to know anythink about any given analysis-tool at
 In order for OmniView to work this way, there shall be a structured architectural approach, to enable modular development.
 This includes dataproducer devices as well as analysis-tools.
 
+\section[Modules]{Modules of OmniView and their Role}
+The Name OmniView actually only applies to the executable instance, that is in charge of displaying gathered data in a way similar to PicoScope or sigrok, whether it's live or archived data. 
+Since (well-designed) modularity can help keeping the complexity of a system in check, the greater OmniView-Architecture is a project of the Bochumer AI-Group.
+\\
+A oscilloscope-like user-interface is the most generic way, to display data as a function over time. 
+All measurement-values are a sample of a certain unit (sometimes even an SI-Unit) at a specific point in time, and thus projectable onto a plane with its unit in y- and the time in x-dimension. 
+Displaying a multitude of different y-dimensions in an oscillogram is a well-proven design and has been implemented in several data-recorder software-suites. 
+\\
+Incoming live-data into the view is delivered via a websocket connection.
+There won't be hard real-time guarantees in this interface. 
+This websocket is provided by an entity that implements the concept of an epoch-server.
+Soft real-time can be guaranteed to a certain extend in the internal structure of the epoch-server and its storage-interface.
+Due to the nature of live-updates of a GUI, new updates are being received on a regular basis and prepended to the n-1 dataset.
+Each update-object that contains data to be prepended, and displayed in the oscillogram is called a column. 
+It derives its name from the property, that it holds several values of different data-channels in parallel.
+The aggregation to a continuous stream of such pieces of information that belong to one channel is called a waveform. 
+\\
+An epoch-server has the ability to maintain multiple websocket connections, and an OmniView-Instance has the ability to maintain connections to multiple epoch-servers. 
+Before a view can instantiate a connection with a websocket, it queries the epoch-servers REST-API, to receive a structure know as possibility-list.
+This list contains all available devices, and all available transducers. 
+A transducer is a function that works as a filter.
+It implements a directed node, taking one or more waveforms as an input and having exactly one waveform as an output. 
+Using transducers, a so-called (processing-)route can be constructed. 
+A route is a directed graph composed from transducer-nodes. 
+For further investigation see \ref{chap:WaveformProcessingNetwork}.
+The structure inside the epoch server that defines which channels are being send out to a specific connection is called the connections visibility-list. 
+This list in combination with a checkbox will also be displayed in the view.
+
+
+\section[Greater Picture]{OmniView and its Role in the Greater Picture}
+Auto-Intern GmbH and their connected entities have been working on a unified architecture for measurement- and monitoring-devices since the early 2000s. 
+Integrating measurement-systems into larger architectures is by no means a trivial task.
+OmniView fits into the Grand-Unified-Monitoring-Architecture of Auto-Intern.
+
 
 \begin{figure}
     \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
@@ -71,9 +105,7 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 \end{figure}
 
 
-
-
-
+\input{waveformprocessingnetwork.tex}
 \input{furtherDevl.tex}
 
 \printglossaries

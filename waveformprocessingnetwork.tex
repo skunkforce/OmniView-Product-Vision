@@ -1,0 +1,9 @@
+\chapter{The Waveform-Processing-Network}
+\label{chap:WaveformProcessingNetwork}
+A transducer is a directed node, and serves the function of forwarding and manipulating a value of a given waveform.
+Routes are directed graphs, consisting of nodes of transducers and attributeless connections between them.
+Routes can be dynamically constructed. 
+The Waveform-Procesing-Network it is a global singleton static object, that gets default-constructed at the epoch-servers startup, and offers the routines .addRoute(Route\_t\&\& newRoute).
+These transducer-nodes might take additional construction parameters. 
+A route is to be read from right to left, since the interpretation can be ambigious reading from left to right. 
+Routes can be configured via a REST-API POST method, that adds a specific route to a connection. 
