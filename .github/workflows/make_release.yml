@@ -17,12 +17,9 @@ jobs:
   
       - name: Compile LaTeX document
         run: |
-          xelatex -output-directory=latex.out OmniView.tex
-          cd latex.out
+          xelatex OmniView.tex
           makeglossaries OmniView
-          cd ..
-          xelatex -output-directory=latex.out OmniView.tex
-          mv latex.out/OmniView.pdf ./
+          xelatex OmniView.tex
 
       - name: Upload PDF as Artifact
         uses: actions/upload-artifact@v2
