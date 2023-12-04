@@ -13,13 +13,15 @@
 }
 \makeglossaries
 
+\tableofcontents
+\newpage 
 
 \begin{document}
 
 \chapter{The Idea of OmniView}
 OmniView is planned to be an omniscient data-visualization and analysis tool. 
 OmniView itself shouldn't need to know anything about any given data-producer at compile-time, but should still be able to visualize the produced information.
-OmniView itself shouldn't need to know anythink about any given analysis-tool at compile-time, but should still be able to use an analysis-API. 
+OmniView itself shouldn't need to know anything about any given analysis-tool at compile-time, but should still be able to use an analysis-API. 
 In order for OmniView to work this way, there shall be a structured architectural approach, to enable modular development.
 This includes dataproducer devices as well as analysis-tools.
 
@@ -107,6 +109,60 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
     \caption[]{Coarse structure of the DLL-interface}
     \label{fig:dllinterface}
 \end{figure}
+
+\section{OmniView Userinterface}
+
+The OmniView user-interface is written in C++, in a later process this will be replaced by JS. The Interface should contain 
+
+\begin{itemize}
+    \item an adjustable window where the data is displayed
+    \item a generell menu for settings, help and others 
+    \item a menu for all extra windows 
+    \item a window to upload the data
+    \item a window to save the data 
+    \item for KFZ a window to check the old data analyses results 
+    \item an exit button
+\end{itemize}
+
+and look like the following picture. 
+
+% insert picture 
+The detailed descriptions of the individual elements can be found below.
+
+\subsection{Datawindow}
+
+The following parts of the view should be adjustable: 
+
+\begin{itemize}
+    \item screensize
+    \item scale of the x- and y-axis 
+    \item fontsize 
+\end{itemize}
+
+The adjustments should be able to be made per mouse, mousepad, touchpad and with shortcuts. They also should be able to be set to a specific number. 
+The user should be able to zoom in the dataset and cut out a specific part of the data. The image of the data should be able to be converted into a PDF. 
+
+\subsection{Data upload window}
+
+The upload window should be an extra window that does not overlap with the datawindow. It should contain an upload button and an exit button. The user should be able to put in the 
+current dataset or another dataset from their database. 
+The window should contain fields where the user can put in 
+\begin{itemize}
+    \item the analysis type
+    \item the base data like the workplace of the measurement
+    \item the reasons for the measurement
+    \item if the measurement shows expected course or not 
+\end{itemize}
+
+\subsection{Help menu}
+
+The Helpmenu should contain 
+\begin{itemize}
+    \item a link to our ous
+    \item a link to an Tutorial website
+\end{itemize}
+
+
 
 
 \input{waveformprocessingnetwork.tex}
