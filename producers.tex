@@ -1,0 +1,39 @@
+\chapter{Dataproducers}
+The origin of a stream of measurement-samples is called a device, as refered to in the UaDI specification. 
+A device may get control-input, but always has to back-channels to a consumer:
+\begin{itemize}
+    \item a pointer to a JSON chunk
+    \item a pointer to a data chunk
+\end{itemize}
+\section{Memory-Management}
+A device doesn't allocate on its own.
+Therefor it needs to get a memory-pointer from the consumer.
+The so called chunks are of a default size of 128*1024 bytes.
+Pointer to these memory-locations are known as chunk\_ptr.
+The consumer is responsible for the memory management of these chunks.
+An array of chunk\_ptr can be handed to the device on claiming it, as well as through a routine called uadi\_push\_chunk.
+In both cases, the consumer passes an array of chunk\_ptr, and the amount of chunk\_ptr to the device.
+When claiming the device, a callback is also registerd. 
+The callback is called, when the device is finished with writing into a chunk.
+The callback is called with a chunk\_ptr and a void pointer to the consumers context. 
+The device doesn't care about the context pointer, it just hands it back to the consumer.
+Which data-type the device hands back is defined by the device. 
+In the first usecases, only float shall be supported. 
+The data-type will be handled in a second layer on top of UaDI, that performs device-management.
+
+\section{Concrete Devices}
+There are several devices already planned that need to be supported by the end of 2024:
+\begin{enumerate}
+    \item OmniScope - USB-Single-Channel Oscilloscope
+    \item OmniScope Duo - USB-Dual-Channel Oscilloscope
+    \item OmniEField - USB-E-Field Probe
+    \item OmniBField - USB-B-Field Probe
+    \item OmniTherm - USB-Thermocoupler Typ-K 
+    \item OmniPower - USB-Power-Monitor
+    \item OmniPower ETH - Ethernet-Power-Monitor
+    \item OmniSonic - USB-Vibration-Sensor
+    \item AI PowerProbe - Ethernet E-Field/B-Field Probe 
+    \item Random Number Generator Software-Device
+    \item IOTA Software Device 
+    \item PCIe - Generic Integer Kintex7 FPGA Device
+\end{enumerate}
