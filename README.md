@@ -23,5 +23,7 @@ Your contributions and insights are valuable to us. If you're interested in cont
 
 ## Additional Resources
 - [GitHub Repository](https://github.com/skunkforce/OmniView-Product-Vision)
+- [Vision-Presentation](https://docs.google.com/presentation/d/14wAobiBcnwfYSzQzcwMZHPfLx6Wl1ev3BcxdJiDPEAE/edit?usp=sharing)
+- [Telegram-Discussion-Group](https://t.me/+YqS3jhCXzIxlMDI6)
 
 Let's build something great together. Go Team OmniView!
