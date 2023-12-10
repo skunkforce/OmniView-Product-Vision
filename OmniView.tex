@@ -118,6 +118,7 @@ The OmniView user-interface is written in C++, in a later process this will be r
     \item an adjustable window where the data is displayed
     \item a general menu for settings, help and others 
     \item a menu for all extra windows 
+    \item a window where the devices are displayed
     \item a window to upload the data
     \item a window to save the data 
     \item a window to check the old data analyses results 
@@ -153,6 +154,30 @@ The window should contain fields where the user can put in
     \item the reasons for the measurement
     \item if the measurement shows expected course or not 
 \end{itemize}
+
+\subsection{Saving data}
+
+This section describes the saving process in the user interface and its key features. 
+In \cite{fig:saveData} the visual representation of the menus can be found.
+
+- The user should be able to press a save button after stopping a measurement 
+- The save button should be visible before 
+- After pressing the save button a window should open where the user can save their data 
+- The window should include an input field for a storage path, the default should be a storage path to a “saves”-folder in the OmniScope-folder
+- if more than one device is connected the user should be able to save more than one path by pressing a plus button at the bottom of the save window that saves the existing settings, closes the window and opens a copy of the save window
+- next to the path there should be an drop down menu where the user can choose the devices that should be saved in the storage path via a checkmarkbox next to the devices  
+- The user should be able to enter the vehicle type, the vin, a name for the measurement and the mileage of the car under the storage path field
+- the use for the fields should stand as a string-placeholder in the input fields
+- After entering the information the user should be able to press the save button at the end of the save window 
+- The window should contain an exit button that closes the window when pressed 
+- The data should be saved in a .csv file in the specified storage path
+- The extra details the user entered should be placed in the header of the .csv file 
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/SaveandOpenLucidChartSaveScreenshot.png}
+    \caption[]{A visual representation of the saving process in the user interface}
+    \label{fig:saveData}
+\end{figure}
 
 \subsection{Help menu}
 
