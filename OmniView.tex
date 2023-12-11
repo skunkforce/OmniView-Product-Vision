@@ -154,6 +154,40 @@ The window should contain fields where the user can put in
     \item if the measurement shows expected course or not 
 \end{itemize}
 
+
+\subsection{Adding new devices and open old measurements}
+This section describes the process of opening old measurements, adding new devices and display both on the data screen. 
+
+In image \ref{fig:imgopen1} and \ref{fig:imgopen2} the GUI-look can be found. 
+
+Opening and Adding: 
+- in the window with found devices should be a plus button 
+- when pressing the plus button a window should open 
+- in this window the user should see the devices that could be connected to the Software and a input field for a storage path
+- the user should be able to input a file into the input field via drag and drop
+- next to the devices and the storage path should be plus buttons
+- if the user presses the plus button next to the device the plus button turns into a green checkmarkbox and the device is added to the list of connected devices, if pressing again the checkmarkbox turns into the plus button and the device is removed from the list of connected devices but is still represented in the window 
+- if the user presses the plus button next to the storage path the cvs file is added to the found devices, this should be a way to display old data as a waveform in the datawindow  
+- after the plus button was pressed the button turns into a checkmarkbox and underneath another plus button with an input field is added; so the user is able to use more than one cvs file 
+- After adding all paths and devices the user can press a button to save the settings and window is closed
+- the names of the devices and paths are now visible in the found Devices window, next to them are checkmarkboxes 
+- when clicking a checkmarkbox next to the paths the data is displayed or deleted in the data window, by default they are enabled
+- the checkmarkbox next to the devices will pop up after the measurement and the user is able to enable/disable the visibility of the data in the datawindow with those
+
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/Open1.png}
+    \caption[]{Overview of the GUI for adding new devices and open old measurements; part 1}
+    \label{fig:imgopen1}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/Open2.png}
+    \caption[]{Overview of the GUI for adding new devices and open old measurements; part 2}
+    \label{fig:imgopen2}
+\end{figure}
+
+
 \subsection{Help menu}
 
 The Helpmenu should contain 
