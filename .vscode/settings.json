@@ -1,0 +1,33 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "OmniView.tex"
+            ]
+        },
+        {
+            "name": "makeglossaries",
+            "command": "makeglossaries",
+            "args": [
+                "OmniView"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex ➞ makeglossaries ➞ xelatex",
+            "tools": [
+                "xelatex",
+                "makeglossaries",
+                "xelatex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "xelatex ➞ makeglossaries ➞ xelatex",
+    "latex-workshop.latex.outDir": "latex.out"
+}
