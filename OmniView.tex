@@ -121,6 +121,7 @@ The OmniView user-interface is written in C++, in a later process this will be r
     \item an adjustable window where the data is displayed
     \item a general menu for settings, help and others 
     \item a menu for all extra windows 
+    \item a window where the devices are displayed
     \item a window to upload the data
     \item a window to save the data 
     \item a window to check the old data analyses results 
@@ -156,6 +157,76 @@ The window should contain fields where the user can put in
     \item the reasons for the measurement
     \item if the measurement shows expected course or not 
 \end{itemize}
+
+\subsection{Write waveform stack in storage}
+
+This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, 
+to a storage system via the user interface. The storage options encompass the computer's file system, 
+a Database Management System (DBMS), or a Cloud platform. Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
+
+The following describes the User story: 
+
+Visibility of Save Button: \\
+
+Prior to initiating the measurement, the save button should be prominently visible.\\
+Greyed-out State During Measurement:\\
+
+While the measurement is in progress, the save button should appear in a greyed-out state.\\
+Post-Measurement Access:\\
+
+Upon completion of the measurement, users should easily locate and access the now visible save button.\\
+Prompt Appearance of Save Window:\\
+
+When the user clicks the save button, a window should promptly appear.\\
+Window Components:\\
+
+Within the window, an input field labeled "Speicherpfad" should be positioned in the left corner, accompanied by a "Durchsuchen" button.\\
+Path Input Options:\\
+
+Users have the option to manually input a path into the "Speicherpfad" field.\\
+File-Explorer Integration:\\
+
+By clicking the "Durchsuchen" button, the File Explorer opens, enabling users to manually select a saving path.\\
+Default Path Handling:\\
+
+If no path is selected, the system defaults to using Desktop/Omniview/saves/.\\
+Visible Default Path:\\
+
+The default path is displayed in the "Speicherpfad" field, appearing greyed out.\\
+Device Selection:\\
+
+Users can choose the devices for saving through a dropdown menu under the selected path.\\
+Adding Another Path:\\
+
+In cases where multiple devices are connected, users can click "Add another path," triggering the appearance of another window with identical settings.\\
+Checkbox Selection:\\
+
+When checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory.\\
+Vehicle Information Input:\\
+
+Beneath the "Speicherpfad," three input fields—Vehicle type, VIN, measurement name, and mileage—are available.\\
+Dropdown Menu for Vehicle Type:\\
+
+Users can choose the vehicle type via a dropdown menu loaded from a file.\\
+Adding Custom Vehicle Type:\\
+
+An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button.\\
+Final Save Action:\\
+
+Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file.\\
+Information Inclusion in File Name:\\
+
+The information entered about the vehicle is integrated into the file name.\\
+Exit Option:\\
+
+Throughout the entire process, users can close the window by clicking an exit button located in the left corner.\\
+
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/SaveandOpenLucidChartScreenshot.png}
+    \caption[]{A visual representation of the saving process in the user interface}
+    \label{fig:saveData}
+\end{figure}
 
 \subsection{Help menu}
 
