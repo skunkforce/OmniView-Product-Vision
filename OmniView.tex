@@ -113,25 +113,161 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 
 \input{producers.tex}
 
-\section{OmniView Userinterface}
+\section{Userinterface}
 
-The OmniView user-interface is written in C++, in a later process this will be replaced by JS. The Interface should contain 
+The following paragraphs describe the Userinterface components and their functionality.
+The design of individual components is also introduced here; however, the detailed description of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should be designed after those principles.\\ 
+
+The user interface is currently implemented in C++; however, there are plans to transition it to JavaScript in a subsequent phase.\\
+This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about OmniView and OmniScope.
+
+The basic interface should contain 
 
 \begin{itemize}
+    \item a bar at the top where the company name, a saving button, a settings button, a start and stop measurement button are integrated 
     \item an adjustable window where the data is displayed
-    \item a general menu for settings, help and others 
-    \item a menu for all extra windows 
-    \item a window where the devices are displayed
+    \item a side menu which can be minimized for : 
+    \begin{itemize}
+        \item searching devices 
+        \item loading old data 
+        \item Diagnostics
+        \item Settings
+        \item Help
+    \end{itemize}
+    \item a bottom window which can be minimized where the connected devices and the loaded data files are presented
+    \item serveral popup windows that are displayed when using for example a analyses
+\end{itemize}
+
+The design should look like the following picture. Right now all buttons are in German, which should be changeable later through the settings menu. 
+
+The popup windows will be 
+\begin{itemize}
     \item a window to upload the data
     \item a window to save the data 
     \item a window to check the old data analyses results 
-    \item an exit button
 \end{itemize}
 
-and look like the following picture. 
+This popup windows should all follow the same structure and design principles which can be found in the \ref{cap: Designprinciples}. 
+An example for a popup window is shown in Figure \ref{fig:PopupwindowDesign}.
+This list is not yet completed. 
 
 % insert picture 
-The detailed descriptions of the individual elements can be found below.
+The detailed descriptions of the individual components and their functionality is described in the following sections.
+
+
+\subsection{Toolbar}
+
+The toolbar will be displayed at the top of the programm. 
+A picture is shown in figure \ref{fig: toolbar}. 
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/Toolbar states.png}
+    \caption[]{A visual representation of the Toolbar with different buttons}
+    \label{fig:saveData}
+\end{figure}
+The toolbar contains the company logo at the left side, this logo should only be visible when the side menu is closed. 
+At the right side the toolbar contains a save button, a settings button and a load again button. 
+In the middle of the toolbar is a field for starting and stopping the measurements that has different states depending on the current state of the measurement. 
+
+In the following the functionality of the different buttons is descriped. 
+
+\subsubsection{Save button}
+
+The save button should be a Icon button that follows the design principle of the icon button described in chapter \ref{cap:Designprinciples_IconButtons}. 
+The save button is used to write the measurement (a waveform stack) into a storage. 
+The measurement is defined as a waveoform stack because the user is able to save the measurement from only one devices or from many different devices into one or more files.
+
+This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, to a storage system via the user interface. The storage options encompass the computer's file system, a Database Management System (DBMS), or a Cloud platform. Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.\\
+
+The following describes the User story: \\
+
+Visibility of Save Button: \\
+
+Prior to initiating the measurement, the save button should be prominently visible.\\
+
+Greyed-out State During Measurement:\\
+
+While the measurement is in progress, the save button should appear in a greyed-out state.\\
+
+Post-Measurement Access:\\
+
+Upon completion of the measurement, users should easily locate and access the now visible save button.\\
+
+Prompt Appearance of Save Window:\\
+
+When the user clicks the save button, a window should promptly appear. This window should be designed after the design principle in chapter \ref{cap:Designprinciples_Popupwindows}\\
+
+Window Components:\\
+
+Within the window, an input field labeled "Speicherpfad" should be positioned in the left corner, accompanied by a "Durchsuchen" button. The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
+
+Path Input Options:\\
+
+Users have the option to manually input a path into the "Speicherpfad" field.\\
+
+File-Explorer Integration:\\
+
+By clicking the "Durchsuchen" button, the File Explorer opens, enabling users to manually select a saving path.\\
+
+Default Path Handling:\\
+
+If no path is selected, the system defaults to using Desktop/Omniview/saves/.\\
+
+Visible Default Path:\\
+
+The default path is displayed in the "Speicherpfad" field, appearing greyed out.\\
+
+Device Selection:\\
+
+Users can choose the devices for saving through a dropdown menu under the selected path.
+Only the devices that are connected are shown with their correct device name.
+Also files that have been loaded into the devices list are shown.
+The number of connected devices is undetermined before the start of the software so their can be multiple devices or just one.\\
+
+Adding Another Path:\\
+
+In cases where multiple devices are connected, users can click "Add another path," triggering the appearance of another window with identical settings. Here the user also has a "Durchsuchen"-Button where he can choose in which path the data is stored and a drop down menu to choose which devices he wants to be stored in the selected path. The user can also change the name of the measurement.\\
+
+Checkbox Selection:\\
+
+When checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory.\\
+
+Vehicle Information Input:\\
+
+Beneath the "Speicherpfad," three input fields—Vehicle type, VIN, measurement name, and mileage—are available.\\
+
+Dropdown Menu for Vehicle Type:\\
+
+Users can choose the vehicle type via a dropdown menu loaded from a file.\\
+
+Adding Custom Vehicle Type:\\
+
+An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button.\\
+
+Final Save Action:\\
+
+Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file. The filename should contain the name of the device and a name set by the user in the "Messung"-field.\\
+
+Information Inclusion in File Name:\\
+
+The information entered about the vehicle ("Messung", "vin", "bekannte Fahrzeuge") should be saved at the top of the csv. file, so it can be read out in a later process.\\
+Exit Option:\\
+
+Throughout the entire process, users can close the window by clicking an exit button located in the right corner of the window.\\
+
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{SaveandOpenLucidChartScreenshot.png}
+    \caption[]{A visual representation of the saving process in the user interface}
+    \label{fig:saveData}
+\end{figure}
+
+\subsubsection{Settings button}
+
+\subsubsection{load again button}
+
+\subsubsection{start and stop button states}
+
+
 
 \subsection{Datawindow}
 
@@ -158,75 +294,7 @@ The window should contain fields where the user can put in
     \item if the measurement shows expected course or not 
 \end{itemize}
 
-\subsection{Write waveform stack in storage}
 
-This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, 
-to a storage system via the user interface. The storage options encompass the computer's file system, 
-a Database Management System (DBMS), or a Cloud platform. Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
-
-The following describes the User story: 
-
-Visibility of Save Button: \\
-
-Prior to initiating the measurement, the save button should be prominently visible.\\
-Greyed-out State During Measurement:\\
-
-While the measurement is in progress, the save button should appear in a greyed-out state.\\
-Post-Measurement Access:\\
-
-Upon completion of the measurement, users should easily locate and access the now visible save button.\\
-Prompt Appearance of Save Window:\\
-
-When the user clicks the save button, a window should promptly appear.\\
-Window Components:\\
-
-Within the window, an input field labeled "Speicherpfad" should be positioned in the left corner, accompanied by a "Durchsuchen" button.\\
-Path Input Options:\\
-
-Users have the option to manually input a path into the "Speicherpfad" field.\\
-File-Explorer Integration:\\
-
-By clicking the "Durchsuchen" button, the File Explorer opens, enabling users to manually select a saving path.\\
-Default Path Handling:\\
-
-If no path is selected, the system defaults to using Desktop/Omniview/saves/.\\
-Visible Default Path:\\
-
-The default path is displayed in the "Speicherpfad" field, appearing greyed out.\\
-Device Selection:\\
-
-Users can choose the devices for saving through a dropdown menu under the selected path.\\
-Adding Another Path:\\
-
-In cases where multiple devices are connected, users can click "Add another path," triggering the appearance of another window with identical settings.\\
-Checkbox Selection:\\
-
-When checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory.\\
-Vehicle Information Input:\\
-
-Beneath the "Speicherpfad," three input fields—Vehicle type, VIN, measurement name, and mileage—are available.\\
-Dropdown Menu for Vehicle Type:\\
-
-Users can choose the vehicle type via a dropdown menu loaded from a file.\\
-Adding Custom Vehicle Type:\\
-
-An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button.\\
-Final Save Action:\\
-
-Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file.\\
-Information Inclusion in File Name:\\
-
-The information entered about the vehicle is integrated into the file name.\\
-Exit Option:\\
-
-Throughout the entire process, users can close the window by clicking an exit button located in the left corner.\\
-
-
-\begin{figure}
-    \includegraphics[width=.9\textwidth]{./assets/pictures/SaveandOpenLucidChartScreenshot.png}
-    \caption[]{A visual representation of the saving process in the user interface}
-    \label{fig:saveData}
-\end{figure}
 
 \subsection{Help menu}
 
@@ -235,6 +303,11 @@ The Helpmenu should contain
     \item a link to our ous
     \item a link to an Tutorial website
 \end{itemize}
+
+\section{Design Principles}\label{cap:Designprinciples}
+\subsection{Design of Popupwindows}\label{cap:Designprinciples_Popupwindows}
+\subsubsection{Design of Buttons in PopupWindows}\label{cap:Designprinciples_PopupWindowButtons}
+\subsection{Design of Icon Buttons}\label{cap:Designprinciples_IconButtons}
 
 
 
