@@ -113,135 +113,367 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 
 \input{producers.tex}
 
-\section{OmniView Userinterface}
+\section{Userinterface}
 
-The OmniView user-interface is written in C++, in a later process this will be replaced by JS. The Interface should contain 
+The following paragraphs describe the Userinterface components and their functionality.
+The design of individual components is also introduced here; however, the detailed description of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should be designed after those principles.\\ 
+
+The user interface is currently implemented in C++; however, there are plans to transition it to JavaScript in a subsequent phase.\\
+This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about OmniView and OmniScope.
+
+The basic interface should contain 
 
 \begin{itemize}
+    \item a bar at the top where the company name, a saving button, a settings button, a start and stop measurement button are integrated 
     \item an adjustable window where the data is displayed
-    \item a general menu for settings, help and others 
-    \item a menu for all extra windows 
-    \item a window where the devices are displayed
+    \item a side menu which can be minimized for : 
+    \begin{itemize}
+        \item searching devices 
+        \item loading old data 
+        \item Diagnostics
+        \item Settings
+        \item Help
+    \end{itemize}
+    \item a bottom window which can be minimized where the connected devices and the loaded data files are presented
+    \item serveral popup windows that are displayed when using for example a analyses
+\end{itemize}
+
+The design can be found in picture \ref{fig: GUI}. 
+\begin{figure}[!h]
+    \includegraphics[width= 400px]{assets/pictures/Start Oszi (1).pdf}
+    \caption[]{A visual representation of the GUI interface when all menus are selected}
+    \label{fig: GUI}
+\end{figure}
+Right now all buttons are in German, which should be changeable later through the settings menu. 
+The size of the GUI should adapt to the size of the respective used screen.
+
+The popup windows will be 
+\begin{itemize}
     \item a window to upload the data
     \item a window to save the data 
     \item a window to check the old data analyses results 
-    \item an exit button
 \end{itemize}
 
-and look like the following picture. 
+This popup windows should all follow the same structure and design principles which can be found in the \ref{cap:Designprinciples}. 
+An example for a popup window is shown in Figure \ref{fig:PopupwindowDesign}.
+This list is not yet completed. 
 
 % insert picture 
-The detailed descriptions of the individual elements can be found below.
+The detailed descriptions of the individual components and their functionality is described in the following sections.
 
-\subsection{Datawindow}
 
-The following parts of the view should be adjustable: 
+\subsection{Toolbar}
 
-\begin{itemize}
-    \item screensize
-    \item scale of the x- and y-axis 
-    \item fontsize 
-\end{itemize}
+The toolbar will be displayed at the top of the programm. 
+A picture is shown in figure \ref{fig: toolbar}. 
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/Toolbar states.png}
+    \caption[]{A visual representation of the Toolbar with different buttons}
+    \label{fig: toolbar}
+\end{figure}
+The toolbar contains the company logo at the left side, this logo should only be visible when the side menu is closed. 
+At the right side the toolbar contains a save button and a load again/reset button. 
+In the middle of the toolbar is a field for starting and stopping the measurements that has different states depending on the current state of the measurement. 
 
-The adjustments should be able to be made per mouse, mousepad, touchpad and with shortcuts. They also should be able to be set to a specific number. 
-The user should be able to zoom in the dataset and cut out a specific part of the data. The image of the data should be able to be converted into a PDF. 
+In the following the functionality of the different buttons is descriped. 
 
-\subsection{Data upload window}
+\subsubsection{Save button}
 
-The upload window should be an extra window that does not overlap with the datawindow. It should contain an upload button and an exit button. The user should be able to put in the 
-current dataset or another dataset from their database. 
-The window should contain fields where the user can put in 
-\begin{itemize}
-    \item the analysis type
-    \item the base data like the workplace of the measurement
-    \item the reasons for the measurement
-    \item if the measurement shows expected course or not 
-\end{itemize}
+The save button should be a Icon button that follows the design principle of the icon button described in chapter \ref{cap:Designprinciples_IconButtons}. 
+The save button is used to write the measurement (a waveform stack) into a storage. 
+The measurement is defined as a waveform stack because the user is able to save the measurement from only one devices or from many different devices into one or more files.
 
-\subsection{Write waveform stack in storage}
+This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, to a storage system via the user interface. The storage options encompass the computer's file system, a Database Management System (DBMS), or a Cloud platform.
+%Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
+\\
 
-This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, 
-to a storage system via the user interface. The storage options encompass the computer's file system, 
-a Database Management System (DBMS), or a Cloud platform. Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
-
-The following describes the User story: 
+\textbf{The following describes the User story:} \\
 
 Visibility of Save Button: \\
 
 Prior to initiating the measurement, the save button should be prominently visible.\\
+
 Greyed-out State During Measurement:\\
 
 While the measurement is in progress, the save button should appear in a greyed-out state.\\
+
 Post-Measurement Access:\\
 
 Upon completion of the measurement, users should easily locate and access the now visible save button.\\
+
 Prompt Appearance of Save Window:\\
 
-When the user clicks the save button, a window should promptly appear.\\
+When the user clicks the save button, a window should promptly appear. This window should be designed after the design principle in chapter \ref{cap:Designprinciples_Popupwindows}\\
+
 Window Components:\\
 
-Within the window, an input field labeled "Speicherpfad" should be positioned in the left corner, accompanied by a "Durchsuchen" button.\\
+Within the window, an input field labeled "Speicherpfad" should be positioned in the left corner, accompanied by a "Durchsuchen" button. The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
+
 Path Input Options:\\
 
 Users have the option to manually input a path into the "Speicherpfad" field.\\
+
 File-Explorer Integration:\\
 
 By clicking the "Durchsuchen" button, the File Explorer opens, enabling users to manually select a saving path.\\
+
 Default Path Handling:\\
 
 If no path is selected, the system defaults to using Desktop/Omniview/saves/.\\
+
 Visible Default Path:\\
 
 The default path is displayed in the "Speicherpfad" field, appearing greyed out.\\
+
 Device Selection:\\
 
-Users can choose the devices for saving through a dropdown menu under the selected path.\\
+Users can choose the devices for saving through a dropdown menu under the selected path. The menu should be designed after the design principle in \ref{cap:Designprinciples_dropDownMenusWithCheckmark}.
+Only the devices that are connected are shown with their correct device name.
+Also files that have been loaded into the devices list are shown.
+The number of connected devices is undetermined before the start of the software so their can be multiple devices or just one.\\
+
 Adding Another Path:\\
 
-In cases where multiple devices are connected, users can click "Add another path," triggering the appearance of another window with identical settings.\\
+In cases where multiple devices are connected, users can click a plus button with the description "Speicherpfad hinzufügen" (Add another path) triggering the appearance of another window with identical settings. Here the user also has a "Durchsuchen"-Button where he can choose in which path the data is stored and a drop down menu to choose which devices he wants to be stored in the selected path. The user can also change the name of the measurement.\\
+
 Checkbox Selection:\\
 
 When checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory.\\
+
 Vehicle Information Input:\\
 
-Beneath the "Speicherpfad," three input fields—Vehicle type, VIN, measurement name, and mileage—are available.\\
+Beneath the "Speicherpfad," four input fields—Vehicle type, VIN, measurement name, and mileage—are available.\\
+
 Dropdown Menu for Vehicle Type:\\
 
-Users can choose the vehicle type via a dropdown menu loaded from a file.\\
+Users can choose the vehicle type via a dropdown menu loaded from a file. The user can only select one vehicle type.\\
+
 Adding Custom Vehicle Type:\\
 
 An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button.\\
+
 Final Save Action:\\
 
-Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file.\\
+Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file. The filename should contain the name of the device and a name set by the user in the "Messung"-field.\\
+
 Information Inclusion in File Name:\\
 
-The information entered about the vehicle is integrated into the file name.\\
+The information entered about the vehicle ("Messung", "vin", "bekannte Fahrzeuge") should be saved at the top of the csv. file, so it can be read out in a later process.\\
+
 Exit Option:\\
 
-Throughout the entire process, users can close the window by clicking an exit button located in the left corner.\\
+Throughout the entire process, users can close the window by clicking an exit button located in the right corner of the window.\\
 
 
 \begin{figure}
-    \includegraphics[width=.9\textwidth]{./assets/pictures/SaveandOpenLucidChartScreenshot.png}
+    \includegraphics[width=.9\textwidth]{SaveandOpenLucidChartScreenshot.png}
     \caption[]{A visual representation of the saving process in the user interface}
     \label{fig:saveData}
 \end{figure}
 
-\subsection{Help menu}
+\subsubsection{load again button/reset button}
 
-The Helpmenu should contain 
+The reset button resets all measurements and reloads all connected devices.
+
+
+\subsubsection{start and stop button states}
+
+it is not clear at the moment if the start and stop button are included in the toolbar or the datawindow
+
+
+
+\subsection{Datawindow}
+
+The Datawindow is positioned in the middle of the screen. The size of the window changes when the devices list or the sidebar menu are opened or closed. The screensize should always take up the maximal available space. 
+The Datawindow displays the choosen files and the current measured data. It also contains a legend where the devices and files are shown with their corresponding color. The legend can be opened and closed. 
+The Datawindow is shown in figure \ref{fig: datawindow}.\\
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/DatawindowVersion1.0.png}
+    \caption[]{A visual representation of the datawindow with a legend.}
+    \label{fig: datawindow}
+\end{figure}
+
+Right now it is not decided if the start and stop buttons are placed in the toolbar or in the datawindow. \\
+
+While a measurement is taken the datawindow cant be changed. While the measurement is taken, the software should automatically zoom in or out so the whole data on the y-axis is displayed and at least the last 10 seconds of the measurement on the x-axis. \\
+
+After the measurement is finished the datawindow can be adjusted by the user. 
+
+The following parts of the datawindow should be adjustable: 
+
 \begin{itemize}
-    \item a link to our ous
-    \item a link to an Tutorial website
+    \item zoom in and out on both axis
+    \item scale of the x- and y-axis 
+    \item choosing a part of the datawindow and only displaying this part 
 \end{itemize}
 
+The adjustments should be able to be made per mouse, mousepad, touchpad and with shortcuts. They also should be able to be set to a specific number. 
+The user should be able to zoom in the dataset and cut out a specific part of the data. The image of the data should be able to be converted into a PDF by clicking the button "PDF" in the datawindow. 
+
+
+\subsection{Side Bar Menu}
+
+The side bar menu is positioned at the left side of the application. It can be extended and closed via a side button as shown in figure \ref{fig: sidebarMenu}. 
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/SideBarMenu.png}
+    \caption[]{A visual representation of the sidebar Menu in its different states}
+    \label{fig: sidebarMenu}
+\end{figure}
+The menu contains five submenus:
+\begin{itemize}
+        \item searching devices named "Suche Geräte"
+        \item loading old data named "Daten hinzufügen"
+        \item Diagnostics named "Diagnose"
+        \item Settings named "Einstellungen"
+        \item Help named "Hilfe"
+    \end{itemize}
+Every Menu has their own icon. 
+In the following the different devices are described.
+
+\subsubsection{Searching devices}
+
+The searching devices submenu is only defined by a button, shown in figure \ref{fig: sidebarMenu}. If the user clicks the button the Software will search for connected devices. If the connected devices are found they are shown in the device list menu. 
+If OmniScopes are connected their light is switched to light blue. 
+
+\subsubsection{Loading old data}
+
+The loading old data menu is also a button shown in figure \ref{fig: sidebarMenu}. If the button is clicked the "Load old data" Popup window is shown. 
+The configurations for this Popup window can be found in the section \ref{cap: PopupWindow_loadoldata}.
+After making the configurations the loaded data is also shown in the devices list and the datapoints are shown in the Datawindow.
+
+
+\subsubsection{Diagnostics menu}
+
+The Diagnostics menu is a drop down menu as shown in figure \ref{fig: sidebarMenu}. 
+The first layer contains the different possible analyses the user can make. The second layer contains the option "Analysiere Daten" (analyse current waveform) and "Generiere Trainingsdaten" (generate Trainingsdata). If one of the options is selected the associated PopupWindow is openend.
+For "analyse current waveform" the associated PopupWindow description can be found in \ref{cap: PopupWindow_analysedata}, the other PopupWindow description can be found in \ref{cap: PopupWindow_generate_training_data}.
+
+\subsubsection{Settings menu}
+
+The settings menu is a drop down menu as shown in figure \ref{fig: sidebarMenu}. 
+The first layer contains the buttons
+\begin{itemize}
+    \item Sprache (language)
+    \item Layout 
+    % \item ligth and dark mode 
+\end{itemize}
+
+When clicking the language button a second drop down menu opens where the user can select the language via a click on the language name. 
+When clicking on the Layout button the "layout" popupwindow described in the section \ref{cap: PopupWindow_layout} appears. 
+
+\subsubsection{Help menu}
+
+The help button is a button that leads to a website. Before the user access the website a popup window appears that ask the user if he wants to be lead to the website or not. 
+
+
+\subsection{PopupWindows}
+This section describes the configuration of the different PopUpWindows and their functionality.
+
+\subsubsection{PopupWindow: Layout}\label{cap: PopupWindow_layout}
+
+
+\subsubsection{PopUpWindow: Load old data}\label{cap: PopupWindow_loadoldata}
+The load old data window should have two options: 
+\begin{itemize}
+    \item entering a file by typing in a path or searching through the file system
+    \item entering a file by a drag and drop field 
+\end{itemize}
+For the first option there is a input field with a "Durchsuchen" (searching) button on the top half of the popupwindow. When clicking the searching button the file system opens and the user can choose a file.
+For the second option there is a drag and drop field on the bottom half of the popupwindow with the description "Datei einfügen" (drop file). 
+
+
+\subsubsection{PopupWindow: analyse data}\label{cap: PopupWindow_analysedata}
+
+The analyse data window is build with the same structure as the generate training data popupwindow. A picture is shown in figure \ref{fig: analysedata Popupwindow}. 
+The first half of the menu including the measurement, VIN and mileage inputfields the functionality of the buttons is the same, except that the user can choose more than one file to be analysed. The main difference is in the bottom half of the menu, this menu has three stages. 
+\begin{itemize}
+    \item before starting the analysis 
+    \item during the analysis
+    \item after the analysis
+\end{itemize}
+
+\textbf{Before the analysis}: 
+Before the analysis starts the user can only click on two buttons "Abbrechen"(cancel) which closes the window and "Analysiere"(analyse) which starts the analysis. When the analyze is started the chosen data will be send to a AP which is connected to a different device where the analysis is running. \\
+
+\textbf{During the analysis}
+During the analysis the menu shows a loading bar in the bottom half and the options are greyed out except the cancel button. The user can still cancel the analysis at any given time. 
+The loading bar is shown because an analysis can take a lot of time. While the analysis is running the user can minimize the window but cant close it. He can use the application in any way and also can run two or more analyses at the same time.\\
+
+\textbf{After the analysis}
+After the analysis the user gets a message via a popup window that his analysis is finished. In the menu he can now see the different datasets he analyzed on the left side and the results in the middle. 
+The results are displayed via a up or down thump in green or red. On the right side the user finds a redname that is clickable. If he clicks on the name a PDF where his measurement is displayed and the test results with a explanation under the picture of the measurement are displayed. The user can download this PDF in the given PDF viewer.  
 
 
 
-\input{waveformprocessingnetwork.tex}
-\input{furtherDevl.tex}
+\subsubsection{PopupWindow generate training data}\label{cap: PopupWindow_generate_training_data}
+
+The PopupWindow "generate training data" is used to send the measured waveform stacks to an url. This data is used for training a KI Modell. 
+
+The generate training data window is designed after the design principle for Popupwindows found in \ref{cap:Designprinciples_Popupwindows} and is shown in figure \ref{fig: Generate Training data Popupwindow}.\\
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/GenerateTrainingDataMenu.png}
+    \caption[]{A visual representation of the "Generate Training data" Popup window}
+    \label{fig: Generate Training data Popupwindow}
+\end{figure}
+To choose the data which is sent the user has two options "Use a current waveform" or "Use waveform from file". \\
+
+By using the first option a drop down menu appears designed after the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark} to choose which device or loaded data should be send. The user can only send one waveform.
+By using the second option a drag-and-drop area for selecting a file from the storage to be sent appears. The user can input a csv file from the storage.\\
+
+Under these field there are three input fields for the ID, VIN and mileage. If the user already saved the current measurement the fields should automatically be filled with the data the user put into the fields from the save PopupWindow. The fields should still be changeable.\\
+If the user used the second option the ID, VIN and mileage should automatically be read from the header of the csv file and put into the appearing ID, VIN and mileage fields. \\
+
+After choosing the right waveform stack the user can configure different settings by a double button (\ref{cap:Designprinciples_PopupWindowButtons}): 
+\begin{itemize}
+    \item "Grund der Aufname" : "Wartung" "Fehler" (Reason for investigation: Maintenance Fault)
+    \item Electrical Consumers : Off On 
+    \item "Bewertung": "normal" "annormal" (Assessment: normal anomaly)
+\end{itemize}
+
+In the last field the user can add a comment. \\ 
+
+All options should be saved in a message which is send along with the data. \\
+
+At the bottom of the menu the user can either cancel the configuration via the "Abbrechen" (Cancel) button or send the data via the "Senden" (send) button. \\
+When pressing cancel the menu closes. When pressing send the data and the message will be send to the right url. 
+
+
+\section{Design Principles}\label{cap:Designprinciples}
+
+\subsection{Design of Popupwindows}\label{cap:Designprinciples_Popupwindows}
+
+\subsubsection{Design of Buttons in PopupWindows}\label{cap:Designprinciples_PopupWindowButtons}
+
+\subsection{Design of Icon Buttons}\label{cap:Designprinciples_IconButtons}
+
+\subsection{Design of a Drop Down Menu with checkmarks}\label{cap:Designprinciples_dropDownMenusWithCheckmark}
+
+
+
+%\subsection{Data upload window}
+
+%The upload window should be an extra window that does not overlap with the datawindow. It should contain an upload button and an exit button. The user should be able to put in the 
+%current dataset or another dataset from their database. 
+%The window should contain fields where the user can put in 
+%\begin{itemize}
+%    \item the analysis type
+%    \item the base data like the workplace of the measurement
+%    \item the reasons for the measurement
+%    \item if the measurement shows expected course or not 
+%\end{itemize}
+
+
+
+%\subsection{Help menu}
+
+%The Helpmenu should contain 
+%\begin{itemize}
+%    \item a link to our ous
+%    \item a link to an Tutorial website
+%\end{itemize}
+
 
 \printglossaries
 
 \end{document}
+
