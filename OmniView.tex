@@ -407,7 +407,7 @@ The results are displayed via a up or down thump in green or red. On the right s
 
 \subsubsection{PopupWindow generate training data}\label{cap: PopupWindow_generate_training_data}
 
-The PopupWindow "generate training data" is used to send the measured waveform stacks to an url. This data is used for training a KI Modell. 
+The PopupWindow "generate training data" is used to send the measured waveform stacks to an API where the data is send to a KI. This data is used for training the KI Modell. 
 
 The generate training data window is designed after the design principle for Popupwindows found in \ref{cap:Designprinciples_Popupwindows} and is shown in figure \ref{fig: Generate Training data Popupwindow}.\\
 \begin{figure}
@@ -418,24 +418,24 @@ The generate training data window is designed after the design principle for Pop
 To choose the data which is sent the user has two options "Use a current waveform" or "Use waveform from file". \\
 
 By using the first option a drop down menu appears designed after the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark} to choose which device or loaded data should be send. The user can only send one waveform.
-By using the second option a drag-and-drop area for selecting a file from the storage to be sent appears. The user can input a csv file from the storage.\\
+By using the second option a drag-and-drop area for selecting a file from the storage appears. The user can only input a csv file from the storage. If he tries to put in another file format a warning message should pop up.\\
 
-Under these field there are three input fields for the ID, VIN and mileage. If the user already saved the current measurement the fields should automatically be filled with the data the user put into the fields from the save PopupWindow. The fields should still be changeable.\\
-If the user used the second option the ID, VIN and mileage should automatically be read from the header of the csv file and put into the appearing ID, VIN and mileage fields. \\
+Under the "Use waveform from file" field there are three input fields for the ID, VIN and mileage. If the user already saved the current measurement the fields should automatically be filled with the data the user put into the fields from the save PopupWindow. Otherwise the user has to put in the ID, VIN and milage by themselves. The fields should always be changeable, even if the user saved the measurement before.\\
+If the user used the second option the ID, VIN and mileage should automatically be read from the header of the csv file and put into the appearing ID, VIN and mileage fields. The ID, VIN and mileage fields should now be greyed out and the user cant change the data anymore \\
 
-After choosing the right waveform stack the user can configure different settings by a double button (\ref{cap:Designprinciples_PopupWindowButtons}): 
+After choosing the right waveform stack the user can configure different settings by a Radio Button(\ref{cap:Designprinciples_PopupWindowButtons}): 
 \begin{itemize}
-    \item "Grund der Aufname" : "Wartung" "Fehler" (Reason for investigation: Maintenance Fault)
-    \item Electrical Consumers : Off On 
-    \item "Bewertung": "normal" "annormal" (Assessment: normal anomaly)
+    \item "Grund der Aufname" : "Wartung" "Fehler" (Reason for investigation: Maintenance / Fault)
+    \item Electrical Consumers : Off / On 
+    \item "Bewertung": "normal" "annormal" (Assessment: normal/ anomaly)
 \end{itemize}
 
 In the last field the user can add a comment. \\ 
 
-All options should be saved in a message which is send along with the data. \\
+All options should be saved in a message which is send along with the data to the API. \\
 
 At the bottom of the menu the user can either cancel the configuration via the "Abbrechen" (Cancel) button or send the data via the "Senden" (send) button. \\
-When pressing cancel the menu closes. When pressing send the data and the message will be send to the right url. 
+When pressing cancel the menu closes. When pressing send the data and the message will be send to the right API. 
 
 
 \section{Design Principles}\label{cap:Designprinciples}
