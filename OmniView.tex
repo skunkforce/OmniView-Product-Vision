@@ -423,10 +423,14 @@ Generally the PopupWindow "generate training data" is used to send measured wave
 
 To choose the data which is send the user has two options which are chooseable by the Radio Buttons "Use a current waveform" or "Use waveform from file". \\
 
-By using the first option a drop down menu appears where the connected device and the loaded data is shown. It is designed after the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark}. The user can choose which device or loaded data (waveform) should be send by clicking the checkbox mark next to the device or loaded data. The user can only send one waveform. 
+By using the first option a drop down menu appears where the connected device and the old loaded data* is shown. It is designed after the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark}.
+The user can choose which device or loaded data (waveform) should be send by clicking the checkbox mark next to the device or loaded data. The user can only send ONE waveform which means the user can also only select ONE device ** or ONE loaded data file. 
+The data should still existed after the user closes the menu. 
+
 
 By using the second option a drag-and-drop area for selecting a file from the storage on the PC appears under the "Waveform from File" Radio Button. All elements under the "Waveform from file" button should be postponed by the space occupied by the drag and drop field. 
 The user can only input a file of type ".csv" from the storage. If he tries to put in another file format the warning message "Wrong format" should pop up. When the user has put in the file the file name should be shown in the drag and drop field, so the user knows that his file has been accepted.\\
+If the file contains more than one device that is saved the user can choose which of the devices saved in the file should be send via a drop down menu like in the first option. 
 
 Under the "Use waveform from file" field there are three input fields for the ID, VIN and mileage. The ID should be read from the config file. If it hasn't been set yet, the message 'Set your ID in settings' should appear greyed out in the field. For the VIN and Mileage the following should be used: 
 \begin{itemize}
@@ -452,6 +456,9 @@ All options should be saved in a message which is send along with the data to th
 At the bottom of the menu the user can either cancel the configuration via the "Abbrechen" (Cancel) button or send the data via the "Senden" (send) button. \\
 When pressing "cancel" the menu closes and the old settings are deleted. When pressing "send" the data and the message are checked for the right format, otherwise the user gets an error message and the sending process is canceled. If the check is positiv the data and message will be converted to a JSON string and will be send to the for the Analysetype individual API with the correct API requirements. If the data has been send correctly the message "You data has been send" should pop up. If the API sends an error the user should get the error message as a popup. 
 The "Send Training Data" counter under in the config increments upon successful data transmission.
+
+*Old loaded data means the data the user loaded into the application from his filesystem 
+** The data should be read from the device itself, the user does not need to save the data first, this pretends complications in the user flow and if more than one device is connected
 
 
 
