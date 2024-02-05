@@ -407,35 +407,52 @@ The results are displayed via a up or down thump in green or red. On the right s
 
 \subsubsection{PopupWindow generate training data}\label{cap: PopupWindow_generate_training_data}
 
-The PopupWindow "generate training data" is used to send the measured waveform stacks to an url. This data is used for training a KI Modell. 
+\textbf{General structure of the "Generate training data" menu.} 
 
-The generate training data window is designed after the design principle for Popupwindows found in \ref{cap:Designprinciples_Popupwindows} and is shown in figure \ref{fig: Generate Training data Popupwindow}.\\
+The "generate training data" PopUpwindow pops up if the user clicks on one of the "generate training buttons" that are found under "Diagnostics" -> Analysetype (for example "Compression") -> "generate training data". The generate training data window is designed after the design principle for Popupwindows found in \ref{cap:Designprinciples_Popupwindows} and is shown in figure \ref{fig: Generate Training data Popupwindow}.\\  In the upper third it contains two Radio Buttons. I the middle there are a ID,VIN and MILEAGE field and three Radio Buttons with the title "Reason-for-investigation", "Electrical Consumers" and "Assessment". In the bottom third there is a comments Input-field and in the right corner a cancel and send button. 
+
 \begin{figure}
     \includegraphics[width=.9\textwidth]{assets/pictures/GenerateTrainingDataMenu.png}
     \caption[]{A visual representation of the "Generate Training data" Popup window}
     \label{fig: Generate Training data Popupwindow}
 \end{figure}
-To choose the data which is sent the user has two options "Use a current waveform" or "Use waveform from file". \\
 
-By using the first option a drop down menu appears designed after the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark} to choose which device or loaded data should be send. The user can only send one waveform.
-By using the second option a drag-and-drop area for selecting a file from the storage to be sent appears. The user can input a csv file from the storage.\\
+\textbf{Functionality of the "Generate Training data menu"}
 
-Under these field there are three input fields for the ID, VIN and mileage. If the user already saved the current measurement the fields should automatically be filled with the data the user put into the fields from the save PopupWindow. The fields should still be changeable.\\
-If the user used the second option the ID, VIN and mileage should automatically be read from the header of the csv file and put into the appearing ID, VIN and mileage fields. \\
+Generally the PopupWindow "generate training data" is used to send measured waveform stacks to an API, where the data is send to a KI. This data is used for training the KI Modell. 
 
-After choosing the right waveform stack the user can configure different settings by a double button (\ref{cap:Designprinciples_PopupWindowButtons}): 
+To choose the data which is send the user has two options which are chooseable by the Radio Buttons "Use a current waveform" or "Use waveform from file". \\
+
+By using the first option a drop down menu appears where the connected device and the loaded data is shown. It is designed after the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark}. The user can choose which device or loaded data (waveform) should be send by clicking the checkbox mark next to the device or loaded data. The user can only send one waveform. 
+
+By using the second option a drag-and-drop area for selecting a file from the storage on the PC appears under the "Waveform from File" Radio Button. All elements under the "Waveform from file" button should be postponed by the space occupied by the drag and drop field. 
+The user can only input a file of type ".csv" from the storage. If he tries to put in another file format the warning message "Wrong format" should pop up. When the user has put in the file the file name should be shown in the drag and drop field, so the user knows that his file has been accepted.\\
+
+Under the "Use waveform from file" field there are three input fields for the ID, VIN and mileage. The ID should be read from the config file. If it hasn't been set yet, the message 'Set your ID in settings' should appear greyed out in the field. For the VIN and Mileage the following should be used: 
 \begin{itemize}
-    \item "Grund der Aufname" : "Wartung" "Fehler" (Reason for investigation: Maintenance Fault)
-    \item Electrical Consumers : Off On 
-    \item "Bewertung": "normal" "annormal" (Assessment: normal anomaly)
+    \item  If the user already saved the current measurement the fields should automatically be filled with the data the user put into the fields from the save PopupWindow.
+    \item If the user used the second option or chose a "loaded data file" in the first option the VIN and mileage should automatically be read from the header of the csv file and put into the VIN and mileage fields
+    \item If the user neither chose old data or saved the data before the user has to put in the VIN and milage by themselves. 
+\end{itemize}
+
+If the ID, VIN and Mileage have been loaded automatically they should not be editable anymore.\\
+The ID, VIN and mileage fields should be greyed out and the user cant change the data anymore. \\
+
+After choosing the right waveform stack the user can configure different settings by a the Radio Buttons(\ref{cap:Designprinciples_PopupWindowButtons}): 
+\begin{itemize}
+    \item "Grund der Aufname" : "Wartung" "Fehler" (Reason for investigation: Maintenance / Fault)
+    \item Electrical Consumers : Off / On 
+    \item "Bewertung": "normal" "annormal" (Assessment: normal/ anomaly)
 \end{itemize}
 
 In the last field the user can add a comment. \\ 
 
-All options should be saved in a message which is send along with the data. \\
+All options should be saved in a message which is send along with the data to the API. \\
 
 At the bottom of the menu the user can either cancel the configuration via the "Abbrechen" (Cancel) button or send the data via the "Senden" (send) button. \\
-When pressing cancel the menu closes. When pressing send the data and the message will be send to the right url. 
+When pressing "cancel" the menu closes and the old settings are deleted. When pressing "send" the data and the message are checked for the right format, otherwise the user gets an error message and the sending process is canceled. If the check is positiv the data and message will be converted to a JSON string and will be send to the for the Analysetype individual API with the correct API requirements. If the data has been send correctly the message "You data has been send" should pop up. If the API sends an error the user should get the error message as a popup. 
+The "Send Training Data" counter under in the config increments upon successful data transmission.
+
 
 
 \section{Design Principles}\label{cap:Designprinciples}
