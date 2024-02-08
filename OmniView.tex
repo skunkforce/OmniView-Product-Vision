@@ -454,12 +454,50 @@ When pressing "cancel" the menu closes and the old settings are deleted. When pr
 The "Send Training Data" counter under in the config increments upon successful data transmission.
 
 
-
 \section{Design Principles}\label{cap:Designprinciples}
 
-\subsection{Design of Popupwindows}\label{cap:Designprinciples_Popupwindows}
+The following chapters elaborate on the design principles of the OmniView Software. OmniView is crafted with the distinctive colors of the AI-Group, as depicted in Fig. \ref{fig: AIGroupColors}. Emphasizing user-friendliness, the software adheres to well-established design principles, such as those inspired by Material Design.
 
-\subsubsection{Design of Buttons in PopupWindows}\label{cap:Designprinciples_PopupWindowButtons}
+\begin{figure}
+    \includegraphics[width=.6\textwidth]{assets/pictures/Colors.png}
+    \caption[]{The used colors in the OmniView application}
+    \label{fig: AIGroupColors}
+\end{figure}
+
+Buttons within the interface are intentionally designed to be easily noticeable, responsive, and their functions clearly defined. The user flow is carefully presented, ensuring a seamless and intuitive experience.
+
+\subsection{Design of Popup Windows}\label{cap:Designprinciples_Popupwindows}
+
+The design of Popup Windows in OmniView adheres to the following principles, providing a structured and user-friendly interface:
+
+\begin{itemize}
+    \item \textbf{Shape:} Popup Windows are presented in a squared format, contributing to a clean and organized appearance.
+    
+    \item \textbf{Color Scheme:} The background of Popup Windows is consistently set to black, creating a visually cohesive environment. The text color is standardized to white, ensuring readability and contrast.
+    
+    \item \textbf{Button Styling:} Buttons within Popup Windows feature a distinct red border, drawing immediate attention to interactive elements. These buttons align with the principles outlined in \ref{cap:Designprinciples_PopupWindowButtons}.
+    
+    \item \textbf{User Interaction Priority:} Items presented in Popup Windows are strategically ordered, with the most crucial choices or edits positioned at the top. This ensures a user-friendly experience by emphasizing primary actions.
+    
+    \item \textbf{Placement of Cancel and Save/Usage Buttons:} The bottom section of Popup Windows houses essential navigation elements, such as "Cancel" and "Save/Usage" buttons. This placement is designed for user convenience and ease of use.
+    
+    \item \textbf{Centralized Content:} Information or options that users can modify, interact with or that are send back to him are positioned in the middle of Popup Windows. This centralization enhances user focus on elements that may require attention or customization.
+\end{itemize}
+
+\subsubsection{Design of Buttons in Popup Windows}\label{cap:Designprinciples_PopupWindowButtons}
+
+Within Popup Windows in OmniView, buttons are designed with careful consideration for user interaction, ensuring a cohesive and intuitive experience:
+
+\begin{itemize}
+    \item \textbf{Cancel Buttons:} Cancel buttons exhibit a red border that becomes lighter when hovered. When clicked, the intensity increases for user feedback.
+    
+    \item \textbf{Save Buttons:} Save buttons are entirely red, with a lighter shade when hovered. Clicking on these buttons increases the intensity, accompanied by a black border for visual emphasis.
+    
+    \item \textbf{Other Buttons:} Buttons, excluding cancel and save, follow the standard Button or RadioButton design principles, maintaining consistency within the interface.
+\end{itemize}
+
+These button designs aim to provide users with a clear visual cue for interaction, ensuring a smooth and predictable experience within the Popup Windows of OmniView.
+
 
 \subsection{Design of Icon Buttons}\label{cap:Designprinciples_IconButtons}
 
