@@ -423,7 +423,7 @@ Generally, the PopupWindow 'Generate Training Data' is used to send measured wav
 
 To choose the data to be sent, the user has two options selectable by the Radio Buttons 'Use a Current Waveform' or 'Use Waveform from File'.
 
-By choosing the first option, a drop-down menu appears, displaying the connected device and loaded data. It is designed following the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark}. 
+By choosing the first option, a drop-down menu appears, displaying the connected device and loaded data \ref{cap:loadedData}. It is designed following the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark}. 
 The user can choose which device or loaded data (waveform) to send by clicking the checkbox next to the device or loaded data. The user can only send one waveform.
 
 By choosing the second option, a drag-and-drop area for selecting a file from the PC's storage appears under the 'Waveform from File' Radio Button. 
@@ -469,6 +469,10 @@ When one radio button in a group is selected, any other radio buttons in the sam
 The term "radio button" is derived from the similarity to the preset station buttons on older car radios, where pressing one button would cause any previously pressed button to pop out,
  indicating the selection of a specific station. Similarly, in a graphical user interface, selecting one radio button deselects any previously selected radio button in the same group. 
  This behavior is useful when users need to make a single choice from a list of options.
+
+\subsection{Loaded Data and Measured Data}\label{cap:loadedData}
+In this context, "measured data" refers to the information obtained by the user through currently connected devices. On the other hand, "loaded data" 
+pertains to old information imported by the user from their filesystem into the application. It is essential to note that "loaded data" does not encompass the most recent measurements conducted by the user. 
 
 
 \section{Design Principles}\label{cap:Designprinciples}
