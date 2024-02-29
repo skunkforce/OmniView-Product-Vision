@@ -196,6 +196,7 @@ This section delineates the procedure for transferring the data from a waveform 
 %Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
 \\
 
+
 \textbf{The following describes the User story:} \\
 
 Visibility of Save Button: \\
@@ -213,71 +214,89 @@ Upon completion of the measurement, users should easily locate and access the no
 Prompt Appearance of Save Window:\\
 
 When the user clicks the save button, a window should promptly appear. This window should be designed after the design principle in chapter \ref{cap:Designprinciples_Popupwindows}\\
+A picture of the saving window is shown here \ref{fig: SavingWindow}.
 
-Window Components:\\
+\textbf{Window Components:}\\
 
-Within the window, an input field labeled "Speicherpfad" should be positioned in the left corner, accompanied by a "Durchsuchen" button. The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
+The Window is seperated in four sections (saving path, select devices, additional options, saving or cancel): \\
 
-Path Input Options:\\
+\textbf{First Section}\\
 
-Users have the option to manually input a path into the "Speicherpfad" field.\\
+In the first section there is an input field labeled "saving path" (Speicherpfad) at the left side accompanied by a "Browse" (Durchsuchen) button. Over the input field there should be the text "choose your saving path" (Wähle deinen Speicherpfad).  The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
 
-File-Explorer Integration:\\
-
-By clicking the "Durchsuchen" button, the File Explorer opens, enabling users to manually select a saving path.\\
-
-Default Path Handling:\\
-
-If no path is selected, the system defaults to using Desktop/Omniview/saves/.\\
+The User has three options to select a path: 
+\begin{itemize}
+    \item he can choose the default path : Desktop/Omniview/saves/
+    \item he can type the path in manually 
+    \item he can select the path from the file browser by clicking on the "browse" button
+\end{itemize}
 
 Visible Default Path:\\
 
-The default path is displayed in the "Speicherpfad" field, appearing greyed out.\\
+The default path is displayed in the "Speicherpfad" field, appearing greyed out. If another path is chosen this path should be displayed in the "Speicherpfad" field.\\
 
-Device Selection:\\
+\textbf{Second section: Device Selection}\\
 
-Users can choose the devices for saving through a dropdown menu under the selected path. The menu should be designed after the design principle in \ref{cap:Designprinciples_dropDownMenusWithCheckmark}.
-Only the devices that are connected are shown with their correct device name.
+The second section is the "Device selection" section. 
+
+In this section there is a drop-down menu displayed that is named "devices" (Geräte). Over the drop down menu is a text saying "choose the devices that should be saved" (wähle die zu speichernden Geräte aus). In the Drop down menu the user finds the connected devices with their correct device name.
 Also files that have been loaded into the devices list are shown.
-The number of connected devices is undetermined before the start of the software so their can be multiple devices or just one.\\
-
-Adding Another Path:\\
-
-In cases where multiple devices are connected, users can click a plus button with the description "Speicherpfad hinzufügen" (Add another path) triggering the appearance of another window with identical settings. Here the user also has a "Durchsuchen"-Button where he can choose in which path the data is stored and a drop down menu to choose which devices he wants to be stored in the selected path. The user can also change the name of the measurement.\\
+The number of connected devices is undetermined before the start of the software so their can be multiple devices or just one.
+Now the user can choose the devices for saving through the dropdown menu. The menu should be designed after the design principle in \ref{cap:Designprinciples_dropDownMenusWithCheckmark}.
+Only the devices that are connected are shown with their correct device name.\\
 
 Checkbox Selection:\\
 
-When checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory.\\
+When the checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory
+
+\textbf{Third Section: Additional Information}\\
+
+In the third section the user can put in additional information. 
 
 Vehicle Information Input:\\
 
-Beneath the "Speicherpfad," four input fields—Vehicle type, VIN, measurement name, and mileage—are available.\\
+First three input fields are available: VIN, measurement name, and mileage.\\
+The user can write the information into the fields. They are saved at the top of the .csv file. The VIN can only have capital letters. 
 
 Dropdown Menu for Vehicle Type:\\
 
-Users can choose the vehicle type via a dropdown menu loaded from a file. The user can only select one vehicle type.\\
+Below this fields the user can choose the vehicle type via a dropdown menu loaded from a file. The user can only select one vehicle type.\\
 
 Adding Custom Vehicle Type:\\
 
 An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button.\\
 
+This name is also saved at the top of the .csv file. 
+
+
+Adding Another Path:\\
+
+In cases where multiple devices are connected, users can click a plus button with the description "Speicherpfad hinzufügen" (Add another path) triggering the appearance of another window with identical settings. Here the user also has a "Durchsuchen"-Button where he can choose in which path the data is stored and a drop down menu to choose which devices he wants to be stored in the selected path. The user can also change the name of the measurement. It should look like an exact copy of the normal save window.\\
+
+\textbf{Fourth section: Save or Cancel}
+
 Final Save Action:\\
+In the fourth section the user can choose to either save the settings or cancel the menu. 
 
 Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file. The filename should contain the name of the device and a name set by the user in the "Messung"-field.\\
-
-Information Inclusion in File Name:\\
-
-The information entered about the vehicle ("Messung", "vin", "bekannte Fahrzeuge") should be saved at the top of the csv. file, so it can be read out in a later process.\\
+Also the information entered about the vehicle ("Messung", "vin", "bekannte Fahrzeuge") should be saved at the top of the csv. file, so it can be read out in a later process.\\
 
 Exit Option:\\
 
-Throughout the entire process, users can close the window by clicking an exit button located in the right corner of the window.\\
+Throughout the entire process, users can close the window by clicking an "cancel" (abbrechen) button located in the right corner of the window.\\
 
 
 \begin{figure}
     \includegraphics[width=.9\textwidth]{SaveandOpenLucidChartScreenshot.png}
     \caption[]{A visual representation of the saving process in the user interface}
     \label{fig:saveData}
+\end{figure}
+
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{Speichern.png}
+    \caption[]{A visual representation of the saving menu}
+    \label{fig: SavingWindow}
 \end{figure}
 
 \subsubsection{load again button/reset button}
