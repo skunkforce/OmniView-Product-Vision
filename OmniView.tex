@@ -116,16 +116,14 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 \section{Userinterface}
 
 The following chapters describe the Userinterface of the OmniView application. It is a detailed description of the different components and their functionality.
-The design of individual components is also introduced here; however, the detailed description of the design principles can be found in Chapter \ref{cap:Designprinciples}. 
-All components should be designed after those principles.\\
+The design of individual components is also introduced here; however, the detailed description of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should be designed after those principles.\\
 If there are open questions after reading the description they can be added as an issue for the FAQ. 
 
 The user interface is currently implemented in C++; however, there are plans to transition it to JavaScript in a subsequent phase.\\
-This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, 
-displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about OmniView and OmniScope.
+This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about OmniView and OmniScope.
 
 
-The application is seperated in four Regions that contain the basic interface: The Toolbar, the SideBarMenu, the PlotRegion and the Devices Menu.
+The application is seperated in four regions that contain the basic interface: The Toolbar, the SideBarMenu, the PlotRegion and the Devices Menu.
 
 The basic interface should contain 
 
@@ -141,14 +139,14 @@ The basic interface should contain
         \item Help
     \end{itemize}
     \item a bottom window which can be minimized where the connected devices and the loaded data files are presented 
-    \item serveral popup windows that are displayed when using for example a analyses
+    \item serveral popup windows that are displayed when using for example an analysis
 \end{itemize}
 
 The size of the GUI should adapt to the size of the respective used screen.
 
 The design can be found in picture \ref{fig: GUI}. 
 \begin{figure}[!h]
-    \includegraphics[width= 400px]{assets/pictures/DatawindowVersion1.png}
+    \includegraphics[width= 400px]{assets/pictures/DatawindowVersion1.0.png}
     \caption[]{A visual representation of the GUI interface when all menus are selected}
     \label{fig: GUI}
 \end{figure}
@@ -167,11 +165,9 @@ This list is not yet completed.
 This popup windows should all follow the same structure and design principles which can be found in the \ref{cap:Designprinciples}. 
 An example for a popup window is shown in chapter \ref{cap:Designprinciples_Popupwindows}.
 
-The following provides an initial structural description of the four main regions. Within the chapters, there is also a detailed description of the various components and their functionality. Subsequently, 
-the individual popup windows are described in terms of their functionality and structure. Following that, a precise description of the design is provided.
+The following provides an initial structural description of the four main regions. Within the chapters, there is also a detailed description of the various components and their functionality. Subsequently, the individual popup windows are described in terms of their functionality and structure. Following that, a precise description of the design is provided.
 
-
-\subsection{Toolbar}
+\subsection{Region: Toolbar}
 
 The toolbar will be displayed at the top of the programm. 
 A picture is shown in figure \ref{fig: toolbar}. 
@@ -182,7 +178,7 @@ A picture is shown in figure \ref{fig: toolbar}.
 \end{figure}
 The toolbar contains the company logo at the left side, this logo should only be visible when the side menu is closed. 
 At the right side the toolbar contains a save button and a load again/reset button. 
-In the middle of the toolbar is a field for starting and stopping the measurements that has different states depending on the current state of the measurement. 
+In the middle of the toolbar is a field for starting and stopping the measurements that has different states depending on the current state of the measurement. It is not decided yet if the start and stop button will stay at this position or will be placed in the plot region. 
 
 In the following the functionality of the different buttons is descriped. 
 
@@ -195,7 +191,6 @@ The measurement is defined as a waveform stack because the user is able to save 
 This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, to a storage system via the user interface. The storage options encompass the computer's file system, a Database Management System (DBMS), or a Cloud platform.
 %Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
 \\
-
 
 \textbf{The following describes the User story:} \\
 
@@ -222,8 +217,7 @@ The Window is seperated in four sections (saving path, select devices, additiona
 
 \textbf{First Section}\\
 
-In the first section at the left side there is an input field for a saving path accompanied by a "Browse" (Durchsuchen) button that is at the right side of the input field.
-Over the input field there should be the text "choose your saving path" (Wähle deinen Speicherpfad).  The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
+In the first section there is an input field labeled "saving path" (Speicherpfad) at the left side accompanied by a "Browse" (Durchsuchen) button. Over the input field there should be the text "choose your saving path" (Wähle deinen Speicherpfad).  The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
 
 The User has three options to select a path: 
 \begin{itemize}
@@ -293,28 +287,22 @@ Throughout the entire process, users can close the window by clicking an "cancel
     \label{fig:saveData}
 \end{figure}
 
-
-\begin{figure}
-    \includegraphics[width=.9\textwidth]{Speichern.png}
-    \caption[]{A visual representation of the saving menu}
-    \label{fig: SavingWindow}
-\end{figure}
-
 \subsubsection{load again button/reset button}
 
-The reset button resets all measurements and reloads all connected devices.
+The reset button resets all measurements and reloads all connected devices. If pressed on the main screen the same symbol should pop up rotating as long as the app needs to reconnect the devices and reset the data. 
 
 
 \subsubsection{start and stop button states}
 
-it is not clear at the moment if the start and stop button are included in the toolbar or the datawindow
+It is not clear at the moment if the start and stop button are included in the toolbar or the plot region.
 
 
 
-\subsection{Datawindow}
+\subsection{Plot Region}
 
-The Datawindow is positioned in the middle of the screen. The size of the window changes when the devices list or the sidebar menu are opened or closed. The screensize should always take up the maximal available space. 
-The Datawindow displays the choosen files and the current measured data. It also contains a legend where the devices and files are shown with their corresponding color. The legend can be opened and closed. 
+The plot region contains the datawindow where the measurement is displayed.
+The datawindow is positioned in the middle of the screen on top of a grey background. The size of the plot region changes when the devices list or the sidebar menu are opened or closed. The screensize should always take up the maximal available space. 
+The Datawindow displays the waveforms of old data that has been loaded in the application and the current measured data from the connected devices. It also contains a legend where the devices and files are shown with their corresponding color. The legend can be opened and closed. 
 The Datawindow is shown in figure \ref{fig: datawindow}.\\
 \begin{figure}
     \includegraphics[width=.9\textwidth]{assets/pictures/Mainwindowopen.png}
@@ -322,9 +310,9 @@ The Datawindow is shown in figure \ref{fig: datawindow}.\\
     \label{fig: datawindow}
 \end{figure}
 
-Right now it is not decided if the start and stop buttons are placed in the toolbar or in the datawindow. \\
+Right now it is not decided if the start and stop buttons are placed in the toolbar or in the plot region. \\
 
-While a measurement is taken the datawindow cant be changed. While the measurement is taken, the software should automatically zoom in or out so the whole data on the y-axis is displayed and at least the last 10 seconds of the measurement on the x-axis. \\
+While a measurement is taken the scale of the data in the datawindow as well as the size of the datawindow cant be changed. While the measurement is taken, the software should automatically zoom in or out so the whole data on the y-axis is displayed and at least the last 10 seconds of the measurement on the x-axis. \\
 
 After the measurement is finished the datawindow can be adjusted by the user. 
 
@@ -356,8 +344,8 @@ The menu contains five submenus:
         \item Settings named "Einstellungen"
         \item Help named "Hilfe"
     \end{itemize}
-Every Menu has their own icon. 
-In the following the different devices are described.
+Every Menu has their own icon. The design of the SideBarButtons and Drop-Down-Menus is described in chapter \ref{cap: SideBarDesignMenu}. 
+In the following the different submenus are described.
 
 \subsubsection{Searching devices}
 
@@ -393,6 +381,7 @@ When clicking on the Layout button the "layout" popupwindow described in the sec
 \subsubsection{Help menu}
 
 The help button is a button that leads to a website. Before the user access the website a popup window appears that ask the user if he wants to be lead to the website or not. 
+
 
 
 \subsection{PopupWindows}
