@@ -1,4 +1,4 @@
-\documentclass{scrreprt}
+\documentclass[]{scrreprt}
 \usepackage{glossaries}
 \usepackage{listings}
 \usepackage[]{graphicx}
@@ -115,6 +115,8 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 
 
 \input{producers.tex}
+\input{waveformprocessingnetwork.tex}
+\input{furtherDevl.tex}
 
 \section{Userinterface}
 
@@ -346,7 +348,7 @@ The menu contains five submenus:
         \item Diagnostics named "Diagnose"
         \item Settings named "Einstellungen"
         \item Help named "Hilfe"
-    \end{itemize}
+\end{itemize}
 Every Menu has their own icon. The design of the SideBarButtons and Drop-Down-Menus is described in chapter \ref{cap: SideBarDesignMenu}. 
 In the following the different submenus are described.
 
@@ -896,8 +898,6 @@ These experiment instructions serve as general guidelines. Please observe safety
 %    \item a link to an Tutorial website
 %\end{itemize}
 
-\input{waveformprocessingnetwork.tex}
-\input{furtherDevl.tex}
 \printglossaries
 
 \end{document}
