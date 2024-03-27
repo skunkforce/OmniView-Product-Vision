@@ -3,6 +3,8 @@
 \usepackage{listings}
 \usepackage[]{graphicx}
 
+\begin{document}
+
 \newglossaryentry{latex}{
   name=LaTeX,
   description={Ein Textsatzsystem}
@@ -15,8 +17,6 @@
 
 \tableofcontents
 \newpage 
-
-\begin{document}
 
 \chapter{The Idea of OmniView}
 OmniView is planned to be an omniscient data-visualization and analysis tool. 
@@ -54,8 +54,9 @@ The structure inside the epoch server that defines which channels are being send
 This list in combination with a checkbox will also be displayed in the view.
 
 \begin{figure}
-    \includegraphics[\width=.9]{assets/overview.pdf}
+    \includegraphics[\width=0.9]{./assets/pictures/overview.pdf}
     \caption{Overview of Modules}
+    \label{fig:Overview}
 \end{figure}
 
 \section[Greater Picture]{OmniView and its Role in the Greater Picture}
@@ -111,7 +112,7 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 \end{figure}
 
 
-\input{producers.tex}
+%\input{producers.tex}
 
 \section{Userinterface}
 
@@ -897,4 +898,3 @@ These experiment instructions serve as general guidelines. Please observe safety
 \printglossaries
 
 \end{document}
-
