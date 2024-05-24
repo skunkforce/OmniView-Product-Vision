@@ -310,28 +310,44 @@ The saves button applies the settings and saves them in the config, so the setti
 
 \subsubsection{Popup Window: Load Old Data} \label{cap:PopupWindow_loadoldata}
 
-The Load Old Data popup window provides two main options for importing previously collected data:
+The Load Old Data popup window first contains only one inputfield , a browse button right to it as well as a \textbf{Load all data} and back button. 
+It provides three options for importing previously collected data:
 
-\textbf{Manual Path Input:}
+\textbf{1. Manual Path Input:}
 \begin{itemize}
-    \item Users can manually enter the file path where the old data is stored. A text input field labeled "Path" is provided for this purpose. Above the input field, there is a text "Enter the path to your data" (Geben Sie den Pfad zu Ihren Daten ein).
+    \item Users can manually enter the file path where the old data is stored in the input field.
+    A text input field labeled "Path" is provided for this purpose.
+     Above the input field, there is a text "Enter the path to your data" (Geben Sie den Pfad zu Ihren Daten ein).
 \end{itemize}
 
-\textbf{Browse Button:}
+\textbf{2. Browse Button:}
 \begin{itemize}
-    \item Users can also click on a "Browse" (Durchsuchen) button to open a file explorer window and navigate to the desired file location. The selected path is then displayed in the text input field.
+    \item Users can also click on a "Browse" (Durchsuchen) button to open a file explorer window and navigate to the desired file location.
+     The selected path is then displayed in the text input field.
 \end{itemize}
 
-\textbf{Drag and Drop:}
+\textbf{3. Drag and Drop:}
 \begin{itemize}
-    \item Alternatively, users can drag and drop a file directly into the application. A designated area labeled "Drag and drop your file here" (Ziehen Sie Ihre Datei hierher) is clearly marked in the window.
+    \item Alternatively, users can drag and drop a file directly into the application.
+     A designated area labeled "Drag and drop your file here" (Ziehen Sie Ihre Datei hierher) is clearly marked in the window.
 \end{itemize}
 
-\textbf{Load Button:}
+If the user wants to enter more than one file, under the existing inputfield there is a plus button. 
+
+\textbf{Plus Button:}
 \begin{itemize}
-    \item Once a path is entered or a file is selected, users can click the "Load" (Laden) button to import the data. The data is then displayed in the Devices Menu and can be analyzed or manipulated as needed.
+    When clicking on the plus button another inputfield and browse button appears under the current inputfield and browse button. This function should be recursive. 
 \end{itemize}
 
+After selecting the files the user can either go back with the back button, which deletes all their inputs or click on the \textbf{Load all data} button. 
+
+\textbf{Load all data}
+\begin{itemize}
+    \item Once a path is entered or a file is selected, users can click the "Load" (Laden) button to import the data. 
+    All data files should now be displayed in the \textbf{Found devices} section. 
+\end{itemize}
+
+How the loaded data can be used, is described in the chapter \ref{cap:UsingOldData}. 
 
 \subsubsection{Popup Window: Diagnostics}
 
@@ -379,7 +395,29 @@ The Generate Training Data popup window facilitates the process of preparing dat
     \item After configuring the settings, users can click the "Send to API" (An API senden) button to submit the data for training. A confirmation message is displayed to ensure that the user wants to proceed with the training process.
 \end{itemize}
 
-\section{Element Definitions}
+\section{Using loaded data in the application}\label{cap:UsingOldData}
+
+Loaded data is displayed in the \textbf{Found Devices} region. Here, users can manage their data files and control whether they are shown in the plot region.
+
+\subsection{Displaying Loaded Data}
+
+Each loaded data file is listed with a checkbox to its left. Users can select or deselect this checkbox to control the display of the data:
+
+\begin{itemize}
+    \item \textbf{Checkbox Selected}: When the checkbox is selected (true), the corresponding data file will be displayed in the plot region.
+    \item \textbf{Checkbox Deselected}: When the checkbox is deselected (false), the data file will not be displayed.
+\end{itemize}
+
+\subsection{Focus During Measurements}
+
+When a measurement is started while loaded data is being displayed, the application will prioritize the focus on the newly measured data. 
+This ensures that the most recent measurements are always in view, without interference from previously loaded data.
+
+\subsection{Removing Loaded Data}
+
+If users want to remove a loaded data file from the list, they can do so by clicking on the \textbf{X} button located to the right of each file. 
+This action will remove the data file from the \textbf{Found Devices} region and it will no longer be available for display in the plot region.
+
 
 \subsection{What is a Radio Button?} \label{cap:RadioButton}
 
