@@ -113,396 +113,325 @@ The \textit{Unified abstract Data\-producer Interface} is the protocol that spec
 \input{producers.tex}
 \input{waveformprocessingnetwork.tex}
 \input{furtherDevl.tex}
+\section{User Interface}
 
-\section{Userinterface}
+The following chapters describe the User Interface of the OmnAIView application. It provides a detailed description of the different components and their functionality. The design of individual components is also introduced here; however, the detailed description of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should be designed according to those principles. If there are any open questions after reading the description, they can be added as an issue for the FAQ.
 
-The following chapters describe the Userinterface of the OmniView application. It is a detailed description of the different components and their functionality.
-The design of individual components is also introduced here; however, the detailed description of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should be designed after those principles.\\
-If there are open questions after reading the description they can be added as an issue for the FAQ. 
+The user interface is currently implemented in C++; however, there are plans to transition it to JavaScript in a subsequent phase. This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, and displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about OmnAIView and OmnAIScope.
 
-The user interface is currently implemented in C++; however, there are plans to transition it to JavaScript in a subsequent phase.\\
-This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about OmniView and OmniScope.
-
-
-The application is seperated in four regions that contain the basic interface: The Toolbar, the SideBarMenu, the PlotRegion and the Devices Menu.
-
-The basic interface should contain 
+The application is divided into four regions that form the basic interface: the Toolbar, the SideBar Menu, the Plot Region, and the Devices Menu.
 
 \begin{itemize}
-    \item a bar at the top where the company name, a saving button and a start and stop measurement button are integrated 
-    \item an adjustable window where the data is displayed
-    \item a side menu for : 
+    \item A bar at the top where the company name, a save button, and start and stop measurement buttons are integrated.
+    \item An adjustable window where the data is displayed.
+    \item A side menu for:
     \begin{itemize}
-        \item searching devices 
-        \item loading old data 
+        \item Searching devices
+        \item Loading old data
         \item Diagnostics
         \item Settings
         \item Help
     \end{itemize}
-    \item a bottom window which can be minimized where the connected devices and the loaded data files are presented 
-    \item serveral popup windows that are displayed when using for example an analysis
+    \item A bottom window that can be minimized, displaying connected devices and loaded data files.
+    \item Several popup windows that appear when using, for example, an analysis.
 \end{itemize}
 
-The size of the GUI should adapt to the size of the respective used screen.
+The size of the GUI should adapt to the size of the respective used screen. The design can be found in Figure \ref{fig:GUI}.
 
-The design can be found in picture \ref{fig:GUI}. 
 \begin{figure}[!h]
     \includegraphics[width=.9\textwidth]{./assets/pictures/DatawindowVersion1.0.png}
     \caption[]{A visual representation of the GUI interface when all menus are selected}
     \label{fig:GUI}
 \end{figure}
-The language that is displayed in the pictures is German.  
 
+The language displayed in the pictures is German.
 
-The popup windows will be 
+The popup windows will include:
+
 \begin{itemize}
-    \item a window to load old data from the filesystem into the application
-    \item a window to save the measured data 
-    \item a window to generate training data from loaded or measured data
-    \item a window to analyse loaded or measured data 
-    \item a settings window 
+    \item A window to load old data from the filesystem into the application.
+    \item A window to save the measured data.
+    \item A window to generate training data from loaded or measured data.
+    \item A window to analyze loaded or measured data.
+    \item A settings window.
 \end{itemize}
-This list is not yet completed. 
-This popup windows should all follow the same structure and design principles which can be found in the \ref{cap:Designprinciples}. 
-An example for a popup window is shown in chapter \ref{cap:Designprinciples_Popupwindows}.
+
+This list is not yet complete. These popup windows should all follow the same structure and design principles found in \ref{cap:Designprinciples}. An example of a popup window is shown in Chapter \ref{cap:Designprinciples_Popupwindows}.
 
 The following provides an initial structural description of the four main regions. Within the chapters, there is also a detailed description of the various components and their functionality. Subsequently, the individual popup windows are described in terms of their functionality and structure. Following that, a precise description of the design is provided.
 
 \subsection{Region: Toolbar}
 
-The toolbar will be displayed at the top of the programm. 
-A picture is shown in figure \ref{fig: toolbar}. 
+The toolbar is displayed at the top of the program. A picture is shown in Figure \ref{fig:toolbar}.
+
 \begin{figure}
     \includegraphics[width=.9\textwidth]{assets/pictures/Toolbar states.png}
     \caption[]{A visual representation of the Toolbar with different buttons}
-    \label{fig: toolbar}
+    \label{fig:toolbar}
 \end{figure}
-The toolbar contains the company logo at the left side, this logo should only be visible when the side menu is closed. 
-At the right side the toolbar contains a save button and a load again/reset button. 
-In the middle of the toolbar is a field for starting and stopping the measurements that has different states depending on the current state of the measurement. It is not decided yet if the start and stop button will stay at this position or will be placed in the plot region. 
 
-In the following the functionality of the different buttons is descriped. 
+The toolbar contains the company logo on the left side, which should only be visible when the side menu is closed. On the right side, the toolbar contains a save button and a load/reset button. In the middle of the toolbar is a field for starting and stopping measurements, which has different states depending on the current state of the measurement. It is not decided yet if the start and stop buttons will stay in this position or be placed in the plot region.
 
-\subsubsection{Save button}
+The functionality of the different buttons is described below.
 
-The save button should be a Icon button that follows the design principle of the icon button described in chapter \ref{cap:Designprinciples_IconButtons}. 
-The save button is used to write the measurement (a waveform stack) into a storage. 
-The measurement is defined as a waveform stack because the user is able to save the measurement from only one devices or from many different devices into one or more files.
+\subsubsection{Save Button}
 
-This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmniScope, to a storage system via the user interface. The storage options encompass the computer's file system, a Database Management System (DBMS), or a Cloud platform.
-%Refer to \cite{fig:saveData} for a visual representation of the corresponding menus.
-\\
+The save button should be an icon button that follows the design principles of the icon button described in Chapter \ref{cap:Designprinciples_IconButtons}. The save button is used to write the measurement (a waveform stack) into a storage. The measurement is defined as a waveform stack because the user can save the measurement from only one device or from many different devices into one or more files.
 
-\textbf{The following describes the User story:} \\
+This section delineates the procedure for transferring the data from a waveform stack or an individual waveform, acquired through the OmnAIScope, to a storage system via the user interface. The storage options include the computer's file system, a Database Management System (DBMS), or a Cloud platform.
 
-Visibility of Save Button: \\
+**User Story:**
 
-Prior to initiating the measurement, the save button should be prominently visible.\\
+Visibility of Save Button:
 
-Greyed-out State During Measurement:\\
+Prior to initiating the measurement, the save button should be prominently visible.
 
-While the measurement is in progress, the save button should appear in a greyed-out state.\\
+Greyed-out State During Measurement:
 
-Post-Measurement Access:\\
+While the measurement is in progress, the save button should appear in a greyed-out state.
 
-Upon completion of the measurement, users should easily locate and access the now visible save button.\\
+Post-Measurement Access:
 
-Prompt Appearance of Save Window:\\
+Upon completion of the measurement, users should easily locate and access the now visible save button.
 
-When the user clicks the save button, a window should promptly appear. This window should be designed after the design principle in chapter \ref{cap:Designprinciples_Popupwindows}\\
-A picture of the saving window is shown here \ref{fig: SavingWindow}.
+Prompt Appearance of Save Window:
 
-\textbf{Window Components:}\\
+When the user clicks the save button, a window should promptly appear. This window should be designed according to the design principles in Chapter \ref{cap:Designprinciples_Popupwindows}. A picture of the saving window is shown in \ref{fig:SavingWindow}.
 
-The Window is seperated in four sections (saving path, select devices, additional options, saving or cancel): \\
+**Window Components:**
 
-\textbf{First Section}\\
+The window is separated into four sections (saving path, select devices, additional options, saving or cancel):
 
-In the first section there is an input field labeled "saving path" (Speicherpfad) at the left side accompanied by a "Browse" (Durchsuchen) button. Over the input field there should be the text "choose your saving path" (Wähle deinen Speicherpfad).  The buttons should be designed after the design principle in chapter \ref{cap:Designprinciples_PopupWindowButtons}\\
+**First Section:**
 
-The User has three options to select a path: 
+In the first section, there is an input field labeled "saving path" (Speicherpfad) on the left side accompanied by a "Browse" (Durchsuchen) button. Above the input field, there should be the text "choose your saving path" (Wähle deinen Speicherpfad). The buttons should be designed according to the design principles in Chapter \ref{cap:Designprinciples_PopupWindowButtons}.
+
+The user has three options to select a path:
 \begin{itemize}
-    \item he can choose the default path : Desktop/Omniview/saves/
-    \item he can type the path in manually 
-    \item he can select the path from the file browser by clicking on the "browse" button
+    \item They can choose the default path: Desktop/OmnAIview/saves/
+    \item They can type the path in manually.
+    \item They can select the path from the file browser by clicking on the "Browse" button.
 \end{itemize}
 
-Visible Default Path:\\
+Visible Default Path:
 
-The default path is displayed in the "Speicherpfad" field, appearing greyed out. If another path is chosen this path should be displayed in the "Speicherpfad" field.\\
+The default path is displayed in the "Speicherpfad" field, appearing greyed out. If another path is chosen, this path should be displayed in the "Speicherpfad" field.
 
-\textbf{Second section: Device Selection}\\
+**Second Section: Device Selection**
 
-The second section is the "Device selection" section. 
+The second section is the "Device selection" section.
 
-In this section there is a drop-down menu displayed that is named "devices" (Geräte). Over the drop down menu is a text saying "choose the devices that should be saved" (wähle die zu speichernden Geräte aus). In the Drop down menu the user finds the connected devices with their correct device name.
-Also files that have been loaded into the devices list are shown.
-The number of connected devices is undetermined before the start of the software so their can be multiple devices or just one.
-Now the user can choose the devices for saving through the dropdown menu. The menu should be designed after the design principle in \ref{cap:Designprinciples_dropDownMenusWithCheckmark}.
-Only the devices that are connected are shown with their correct device name.\\
+In this section, there is a drop-down menu named "devices" (Geräte). Above the drop-down menu is a text saying "choose the devices that should be saved" (wähle die zu speichernden Geräte aus). In the drop-down menu, the user finds the connected devices with their correct device name. Also, files that have been loaded into the devices list are shown. The number of connected devices is undetermined before the start of the software, so there can be multiple devices or just one. The user can choose the devices for saving through the drop-down menu. The menu should be designed according to the design principles in \ref{cap:Designprinciples_dropDownMenusWithCheckmark}. Only the connected devices are shown with their correct device name.
 
-Checkbox Selection:\\
+Checkbox Selection:
 
-When the checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory
+When the checkboxes next to the devices are selected, the chosen devices are saved in the same file within the selected directory.
 
-\textbf{Third Section: Additional Information}\\
+**Third Section: Additional Information**
 
-In the third section the user can put in additional information. 
+In the third section, the user can put in additional information.
 
-Vehicle Information Input:\\
+Vehicle Information Input:
 
-First three input fields are available: VIN, measurement name, and mileage.\\
-The user can write the information into the fields. They are saved at the top of the .csv file. The VIN can only have capital letters. 
+First, three input fields are available: VIN, measurement name, and mileage. The user can write the information into the fields, and it is saved at the top of the .csv file. The VIN can only have capital letters.
 
-Dropdown Menu for Vehicle Type:\\
+Dropdown Menu for Vehicle Type:
 
-Below this fields the user can choose the vehicle type via a dropdown menu loaded from a file. The user can only select one vehicle type.\\
+Below these fields, the user can choose the vehicle type via a dropdown menu loaded from a file. The user can only select one vehicle type.
 
-Adding Custom Vehicle Type:\\
+Adding Custom Vehicle Type:
 
-An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button.\\
+An option allows users to input a new vehicle type at the end of the dropdown menu, subsequently adding it to the file by clicking a plus button. This name is also saved at the top of the .csv file.
 
-This name is also saved at the top of the .csv file. 
+Adding Another Path:
 
+In cases where multiple devices are connected, users can click a plus button with the description "Speicherpfad hinzufügen" (Add another path), triggering the appearance of another window with identical settings. Here, the user also has a "Durchsuchen" button to choose the path where the data is stored and a dropdown menu to choose which devices to store in the selected path. The user can also change the name of the measurement. It should look like an exact copy of the normal save window.
 
-Adding Another Path:\\
+**Fourth Section: Save or Cancel**
 
-In cases where multiple devices are connected, users can click a plus button with the description "Speicherpfad hinzufügen" (Add another path) triggering the appearance of another window with identical settings. Here the user also has a "Durchsuchen"-Button where he can choose in which path the data is stored and a drop down menu to choose which devices he wants to be stored in the selected path. The user can also change the name of the measurement. It should look like an exact copy of the normal save window.\\
+Final Save Action:
 
-\textbf{Fourth section: Save or Cancel}
+In the fourth section, the user can choose to either save the settings or cancel the menu.
 
-Final Save Action:\\
-In the fourth section the user can choose to either save the settings or cancel the menu. 
+Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file. The filename should contain the name of the device and a name set by the user in the "Messung" field. The information entered about the vehicle ("Messung", "vin", "bekannte Fahrzeuge") should be saved at the top of the .csv file, so it can be read out in a later process.
 
-Users can initiate the save process by clicking the save button in the right corner, preserving the selected waveform stack in the chosen path as a .csv file. The filename should contain the name of the device and a name set by the user in the "Messung"-field.\\
-Also the information entered about the vehicle ("Messung", "vin", "bekannte Fahrzeuge") should be saved at the top of the csv. file, so it can be read out in a later process.\\
+Exit Option:
 
-Exit Option:\\
+Throughout the entire process, users can close the window by clicking a "cancel" (abbrechen) button located in the right corner of the window.
 
-Throughout the entire process, users can close the window by clicking an "cancel" (abbrechen) button located in the right corner of the window.\\
+\subsubsection{Load Again Button/Reset Button}
 
+The reset button resets all measurements and reloads all connected devices. If pressed on the main screen, the same symbol should pop up rotating as long as the app needs to reconnect the devices and reset the data.
 
-\subsubsection{load again button/reset button}
+\subsubsection{Start and Stop Button States}
 
-The reset button resets all measurements and reloads all connected devices. If pressed on the main screen the same symbol should pop up rotating as long as the app needs to reconnect the devices and reset the data. 
+It is not clear at the moment if the start and stop
 
+ buttons will stay in the toolbar or be placed in the plot region.
 
-\subsubsection{start and stop button states}
+\subsection{Region: Plot Region}
 
-It is not clear at the moment if the start and stop button are included in the toolbar or the plot region.
+The plot region displays the data window where the measurements are shown. The data window is located in the middle of the screen. It adapts when the user opens or closes the devices list or the sidebar menu. A picture is shown in Figure \ref{fig:datawindow}.
 
-
-
-\subsection{Plot Region}
-
-The plot region contains the datawindow where the measurement is displayed.
-The datawindow is positioned in the middle of the screen on top of a grey background. The size of the plot region changes when the devices list or the sidebar menu are opened or closed. The screensize should always take up the maximal available space. 
-The Datawindow displays the waveforms of old data that has been loaded in the application and the current measured data from the connected devices. It also contains a legend where the devices and files are shown with their corresponding color. The legend can be opened and closed. 
-The Datawindow is shown in figure \ref{fig: datawindow}.\\
 \begin{figure}
     \includegraphics[width=.9\textwidth]{assets/pictures/Mainwindowopen.png}
-    \caption[]{A visual representation of the datawindow with a legend.}
-    \label{fig: datawindow}
+    \caption[]{A visual representation of the data window with a legend}
+    \label{fig:datawindow}
 \end{figure}
 
-Right now it is not decided if the start and stop buttons are placed in the toolbar or in the plot region. \\
-
-While a measurement is taken the scale of the data in the datawindow as well as the size of the datawindow cant be changed. While the measurement is taken, the software should automatically zoom in or out so the whole data on the y-axis is displayed and at least the last 10 seconds of the measurement on the x-axis. \\
-
-After the measurement is finished the datawindow can be adjusted by the user. 
-
-The following parts of the datawindow should be adjustable: 
+While the measurement is being taken, the scale and size of the data window cannot be changed. After the measurement, the user can adjust the data window. The following adjustments are possible:
 
 \begin{itemize}
-    \item zoom in and out on both axis
-    \item scale of the x- and y-axis 
-    \item choosing a part of the datawindow and only displaying this part 
+    \item Zooming in and out on both axes.
+    \item Adjusting the scale of the x- and y-axes.
+    \item Selecting a specific part of the data window and displaying it.
 \end{itemize}
 
-The adjustments should be able to be made per mouse, mousepad, touchpad and with shortcuts. They also should be able to be set to a specific number. 
-The user should be able to zoom in the dataset and cut out a specific part of the data. The image of the data should be able to be converted into a PDF by clicking the button "PDF" in the datawindow. 
+Adjustments should be made using a mouse, mousepad, touchpad, or keyboard shortcuts.
 
+Additionally, the user can export the data window as a PDF.
 
-\subsection{Side Bar Menu}
+\subsection{Region: Sidebar Menu}
 
-The side bar menu is positioned at the left side of the application. It can be extended and closed via a side button as shown in figure \ref{fig: sidebarMenu}. 
+The sidebar menu is located on the left side of the application. It can be expanded and closed via a side button. The sidebar menu is divided into five different submenus with different icons. The menu and submenus are shown in the following:
+
+\begin{itemize}
+    \item Searching devices ("Suche Geräte")
+    \item Loading old data ("Daten hinzufügen")
+    \item Diagnostics ("Diagnose")
+    \item Settings ("Einstellungen")
+    \item Help ("Hilfe")
+\end{itemize}
+
+A picture of the sidebar menu is shown in Figure \ref{fig:sidebarMenu}.
+
 \begin{figure}
     \includegraphics[width=.9\textwidth]{assets/pictures/SideBarMenu.png}
-    \caption[]{A visual representation of the sidebar Menu in its different states}
-    \label{fig: sidebarMenu}
-\end{figure}
-The menu contains five submenus:
-\begin{itemize}
-        \item searching devices named "Suche Geräte"
-        \item loading old data named "Daten hinzufügen"
-        \item Diagnostics named "Diagnose"
-        \item Settings named "Einstellungen"
-        \item Help named "Hilfe"
-\end{itemize}
-Every Menu has their own icon. The design of the SideBarButtons and Drop-Down-Menus is described in chapter \ref{cap: SideBarDesignMenu}. 
-In the following the different submenus are described.
-
-\subsubsection{Searching devices}
-
-The searching devices submenu is only defined by a button, shown in figure \ref{fig: sidebarMenu}. If the user clicks the button the Software will search for connected devices. If the connected devices are found they are shown in the device list menu. 
-If OmniScopes are connected their light is switched to light blue. 
-
-\subsubsection{Loading old data}
-
-The loading old data menu is also a button shown in figure \ref{fig: sidebarMenu}. If the button is clicked the "Load old data" Popup window is shown. 
-The configurations for this Popup window can be found in the section \ref{cap: PopupWindow_loadoldata}.
-After making the configurations the loaded data is also shown in the devices list and the datapoints are shown in the Datawindow.
-
-
-\subsubsection{Diagnostics menu}
-
-The Diagnostics menu is a drop down menu as shown in figure \ref{fig: sidebarMenu}. 
-The first layer contains the different possible analyses the user can make. The second layer contains the option "Analysiere Daten" (analyse current waveform) and "Generiere Trainingsdaten" (generate Trainingsdata). If one of the options is selected the associated PopupWindow is openend.
-For "analyse current waveform" the associated PopupWindow description can be found in \ref{cap: PopupWindow_analysedata}, the other PopupWindow description can be found in \ref{cap: PopupWindow_generate_training_data}.
-
-\subsubsection{Settings menu}
-
-The settings menu is a drop down menu as shown in figure \ref{fig: sidebarMenu}. 
-The first layer contains the buttons
-\begin{itemize}
-    \item Sprache (language)
-    \item Layout 
-    % \item ligth and dark mode 
-\end{itemize}
-
-When clicking the language button a second drop down menu opens where the user can select the language via a click on the language name. 
-When clicking on the Layout button the "layout" popupwindow described in the section \ref{cap: PopupWindow_layout} appears. 
-
-\subsubsection{Help menu}
-
-The help button is a button that leads to a website. Before the user access the website a popup window appears that ask the user if he wants to be lead to the website or not. 
-
-
-
-\subsection{PopupWindows}
-This section describes the configuration of the different PopUpWindows and their functionality.
-
-\subsubsection{PopupWindow: Layout}\label{cap: PopupWindow_layout}
-
-
-\subsubsection{PopUpWindow: Load old data}\label{cap: PopupWindow_loadoldata}
-The load old data window should have two options: 
-\begin{itemize}
-    \item entering a file by typing in a path or searching through the file system
-    \item entering a file by a drag and drop field 
-\end{itemize}
-For the first option there is a input field with a "Durchsuchen" (searching) button on the top half of the popupwindow. When clicking the searching button the file system opens and the user can choose a file.
-For the second option there is a drag and drop field on the bottom half of the popupwindow with the description "Datei einfügen" (drop file). 
-
-
-\subsubsection{PopupWindow: analyse data}\label{cap: PopupWindow_analysedata}
-
-The analyse data window is build with the same structure as the generate training data popupwindow. A picture is shown in figure \ref{fig: analysedata Popupwindow}. 
-The first half of the menu including the measurement, VIN and mileage inputfields the functionality of the buttons is the same, except that the user can choose more than one file to be analysed. The main difference is in the bottom half of the menu, this menu has three stages. 
-\begin{itemize}
-    \item before starting the analysis 
-    \item during the analysis
-    \item after the analysis
-\end{itemize}
-
-\textbf{Before the analysis}: 
-Before the analysis starts the user can only click on two buttons "Abbrechen"(cancel) which closes the window and "Analysiere"(analyse) which starts the analysis. When the analyze is started the chosen data will be send to a AP which is connected to a different device where the analysis is running. \\
-
-\textbf{During the analysis}
-During the analysis the menu shows a loading bar in the bottom half and the options are greyed out except the cancel button. The user can still cancel the analysis at any given time. 
-The loading bar is shown because an analysis can take a lot of time. While the analysis is running the user can minimize the window but cant close it. He can use the application in any way and also can run two or more analyses at the same time.\\
-
-\textbf{After the analysis}
-After the analysis the user gets a message via a popup window that his analysis is finished. In the menu he can now see the different datasets he analyzed on the left side and the results in the middle. 
-The results are displayed via a up or down thump in green or red. On the right side the user finds a redname that is clickable. If he clicks on the name a PDF where his measurement is displayed and the test results with a explanation under the picture of the measurement are displayed. The user can download this PDF in the given PDF viewer.  
-
-
-
-\subsubsection{PopupWindow generate training data}\label{cap: PopupWindow_generate_training_data}
-
-\textbf{General structure of the "Generate training data" menu.} 
-
-The "generate training data" PopUpwindow pops up if the user clicks on one of the "generate training buttons" that are found under "Diagnostics" -> Analysetype (for example "Compression") -> "generate training data". The generate training data window is designed after the design principle for Popupwindows found in \ref{cap:Designprinciples_Popupwindows} and is shown in figure \ref{fig: Generate Training data Popupwindow}.\\  In the upper third it contains two Radio Buttons. I the middle there are a ID,VIN and MILEAGE field and three Radio Buttons with the title "Reason-for-investigation", "Electrical Consumers" and "Assessment". In the bottom third there is a comments Input-field and in the right corner a cancel and send button. 
-
-\begin{figure}
-    \includegraphics[width=.9\textwidth]{assets/pictures/GenerateTrainingDataMenu.png}
-    \caption[]{A visual representation of the "Generate Training data" Popup window}
-    \label{fig: Generate Training data Popupwindow}
+    \caption[]{A visual representation of the sidebar menu in its different states}
+    \label{fig:sidebarMenu}
 \end{figure}
 
-\textbf{Functionality of the "Generate Training data menu"}
+The different submenus are described below.
 
-Generally, the PopupWindow 'Generate Training Data' is used to send measured waveform stacks to an API, where the data is sent to a KI. This data is used for training the KI model.
+\subsubsection{Searching Devices}
 
-To choose the data to be sent, the user has two options selectable by the Radio Buttons 'Use a Current Waveform' or 'Use Waveform from File'.
+The Searching Devices submenu contains a button for searching connected devices. When the button is pressed, the connected devices are searched and displayed in the devices list menu. The connected OmnAIScopes should light up blue.
 
-By choosing the first option, a drop-down menu appears, displaying the connected device and loaded data \ref{cap:loadedData}. It is designed following the design principle \ref{cap:Designprinciples_dropDownMenusWithCheckmark}. 
-The user can choose which device or loaded data (waveform) to send by clicking the checkbox next to the device or loaded data. The user can only send one waveform.
+\subsubsection{Loading Old Data}
 
-By choosing the second option, a drag-and-drop area for selecting a file from the PC's storage appears under the 'Waveform from File' Radio Button. 
-All elements under the 'Waveform from file' button should be rearranged to accommodate the space occupied by the drag and drop field. 
-The user can only input a file of type '.csv' from the storage. If they try to input another file format, the warning message 'Wrong format' should pop up. 
-Once the user successfully uploads the file, the filename will be displayed in the drag-and-drop field, providing confirmation that the file has been accepted.
+The Loading Old Data submenu contains a button for opening the "Load Old Data" popup window. The configuration of this popup window is described in \ref{cap:PopupWindow_loadoldata}.
 
-Under the 'Use waveform from file' field, there are three input fields for the ID, VIN, and mileage. The ID should be read from the config file. 
-If it hasn't been set yet, the message 'Set your ID in settings' should appear greyed out in the field. The user can only set the ID in the settings menu. For the VIN and Mileage, the following should be used:
-\begin{itemize}
-    \item If the user already saved the current measurement, the fields should automatically be filled with the data the user put into the fields from the save PopupWindow.
-    \item If the user used the second option or chose a 'loaded data file' in the first option, the VIN and mileage should automatically be read from the header of the CSV file and put into the VIN and mileage fields.
-    \item If the user neither chose old data nor saved the data before, the user has to put in the VIN and mileage by themselves.
-\end{itemize}
+\subsubsection{Diagnostics Menu}
 
-If the ID, VIN, and Mileage have been loaded automatically, they should not be editable anymore. The ID, VIN, and mileage fields should be greyed out, and the user can't change the data anymore.
+The Diagnostics menu is a drop-down menu that allows the user to choose between different analyses. By selecting an analysis type, the associated popup window is opened. The different analysis popup windows are described in \ref{cap:PopupWindow_analysedata} and \ref{cap:PopupWindow_generate_training_data}.
 
-After choosing the right waveform stack, the user can configure different settings by the Radio Buttons (\ref{cap:Designprinciples_PopupWindowButtons}):
-\begin{itemize}
-    \item 'Grund der Aufnahme': 'Wartung' / 'Fehler' (Reason for investigation: Maintenance / Fault)
-    \item Electrical Consumers: Off / On
-    \item 'Bewertung': 'normal' / 'anormal' (Assessment: normal / anomaly)
-\end{itemize}
+\subsubsection{Settings Menu}
 
-In the last field, the user can add a comment.
+The Settings menu is a drop-down menu that allows the user to select the language and configure the layout. By selecting one of the settings, the corresponding settings window is opened. The settings window is described in \ref{cap:PopupWindow_layout}.
 
-All options should be saved in a message, which is sent along with the data to the API.
+\subsubsection{Help Menu}
 
-At the bottom of the menu, the user can either cancel the configuration via the 'Abbrechen' (Cancel) button or send the data via the 'Senden' (Send) button.
- When pressing 'Cancel', the menu closes, and the old settings are deleted. When pressing 'Send', the data and the message are checked for the right format; otherwise, the user gets an error message, 
- and the sending process is canceled. If the check is positive, the data and message will be converted to a JSON string and sent to the API for the Analysetype individual with the correct API requirements. 
- If the data has been sent correctly, the message 'Your data has been sent' should pop up.
- If the API sends an error, the user should get the error message as a popup. The 'Send Training Data' counter in the config increments upon successful data transmission.
+The Help menu is represented by a help button. When this button is pressed, the user is redirected to a website. Before being redirected, the user is prompted by a popup window asking for confirmation.
 
- \section{Elementdefintion}
+\subsection{Region: Popup Windows}
 
-\subsection{What is a Radio Button?}\label{cap:RadioButton}
+This section describes the configuration and functionality of the different popup windows. 
 
-A radio button, in the context of user interface design and interaction, is a graphical control element that allows users to choose one option from a set of mutually exclusive options. 
-It typically appears as a small circular or round button that can be either selected (checked) or deselected (unchecked). 
-When one radio button in a group is selected, any other radio buttons in the same group are automatically deselected.
+### Popup Window: Layout \label{cap:PopupWindow_layout}
 
-The term "radio button" is derived from the similarity to the preset station buttons on older car radios, where pressing one button would cause any previously pressed button to pop out,
- indicating the selection of a specific station. Similarly, in a graphical user interface, selecting one radio button deselects any previously selected radio button in the same group. 
- This behavior is useful when users need to make a single choice from a list of options.
+The Layout popup window allows users to customize the appearance and configuration of the OmnAIView interface. This window is divided into several sections:
 
-\subsection{Loaded Data and Measured Data}\label{cap:loadedData}
-In this context, "measured data" refers to the information obtained by the user through currently connected devices. On the other hand, "loaded data" 
-pertains to old information imported by the user from their filesystem into the application. It is essential to note that "loaded data" does not encompass the most recent measurements conducted by the user. 
+**Theme Selection:**
+- Users can choose between different themes such as Light, Dark, and High Contrast. Each theme should be visually distinct to accommodate various user preferences and needs.
 
+**Font Settings:**
+- This section includes options to change the font type, size, and color. Users can preview the font changes in a sample text box before applying them.
 
-\section{Design Principles}\label{cap:Designprinciples}
+**Color Customization:**
+- Users can customize the colors of different interface elements such as the toolbar, sidebar menu, and data window. A color picker tool should be available for precise color selection.
 
-The following chapters elaborate on the design principles of the OmniView Software. OmniView is crafted with the distinctive colors of the AI-Group, as depicted in Fig. \ref{fig: AIGroupColors}. Emphasizing user-friendliness, the software adheres to well-established design principles, such as those inspired by Material Design.
+**Reset to Default:**
+- A reset button allows users to revert all settings to the default configuration if needed.
 
-\begin{figure}
-    \includegraphics[width=.6\textwidth]{assets/pictures/Colors.png}
-    \caption[]{The used colors in the OmniView application}
-    \label{fig: AIGroupColors}
-\end{figure}
+### Popup Window: Load Old Data \label{cap:PopupWindow_loadoldata}
 
-Buttons within the interface are intentionally designed to be easily noticeable, responsive, and their functions clearly defined. The user flow is carefully presented, ensuring a seamless and intuitive experience.
+The Load Old Data popup window provides two main options for importing previously collected data:
 
-\subsection{Design of Popup Windows}\label{cap:Designprinciples_Popupwindows}
+**Manual Path Input:**
+- Users can manually enter the file path where the old data is stored. A text input field labeled "Path" is provided for this purpose. Above the input field, there is a text "Enter the path to your data" (Geben Sie den Pfad zu Ihren Daten ein).
 
-The design of Popup Windows in OmniView adheres to the following principles, providing a structured and user-friendly interface:
+**Browse Button:**
+- Users can also click on a "Browse" (Durchsuchen) button to open a file explorer window and navigate to the desired file location. The selected path is then displayed in the text input field.
+
+**Drag and Drop:**
+- Alternatively, users can drag and drop a file directly into the application. A designated area labeled "Drag and drop your file here" (Ziehen Sie Ihre Datei hierher) is clearly marked in the window.
+
+**Load Button:**
+- Once a path is entered or a file is selected, users can click the "Load" (Laden) button to import the data. The data is then displayed in the Devices Menu and can be analyzed or manipulated as needed.
+
+### Popup Window: Analyze Data \label{cap:PopupWindow_analysedata}
+
+The Analyze Data popup window is designed to guide users through the data analysis process. It consists of three stages:
+
+**Before Analysis:**
+- The user can choose the type of analysis to perform from a dropdown menu. Options might include time-series analysis, frequency analysis, or custom scripts. Once the selection is made, the user can start the analysis by clicking the "Start Analysis" (Analyse starten) button or cancel the process with the "Cancel" (Abbrechen) button.
+
+**During Analysis:**
+- A progress bar is displayed to indicate the status of the analysis. During this stage, all options are greyed out except for the cancel button. This ensures that the user is aware that the analysis is ongoing and prevents accidental changes.
+
+**After Analysis:**
+- Once the analysis is complete, the results are shown in the popup window. Users can view the results directly, or download a detailed report in PDF format by clicking the "Download PDF" (PDF herunterladen) button. The report includes visual representations of the data and detailed analysis results.
+
+### Popup Window: Generate Training Data \label{cap:PopupWindow_generate_training_data}
+
+The Generate Training Data popup window facilitates the process of preparing data for training the AI model. It includes the following options:
+
+**Waveform Selection:**
+- Users can select which waveform or waveform stack to use for training from a dropdown menu. The menu lists all available waveforms with their respective names.
+
+**Additional Information:**
+- Users can input metadata such as the name of the training session, a description, and any relevant tags. This information is useful for organizing and retrieving training data later.
+
+**Configuration Settings:**
+- Users can adjust settings for the training process, such as the number of training iterations, batch size, and learning rate. These settings allow users to fine-tune the training process according to their requirements.
+
+**Send to API:**
+- After configuring the settings, users can click the "Send to API" (An API senden) button to submit the data for training. A confirmation message is displayed to ensure that the user wants to proceed with the training process.
+
+\section{Element Definitions}
+
+### What is a Radio Button? \label{cap:RadioButton}
+
+A radio button is a graphical control element that allows users to choose one option from a set of mutually exclusive options. Selecting one radio button in a group automatically deselects the others. Radio buttons are typically used in forms and settings menus where only one choice is allowed from a predefined set of options.
+
+### Loaded Data and Measured Data \label{cap:loadedData}
+
+"Measured data" refers to information obtained through currently connected devices, while "loaded data" refers to old information imported from the filesystem. Loaded data does not include the most recent measurements. The distinction between these two types of data is important for ensuring that users can easily access and manage both historical and real-time data within the OmnAIView interface.
+
+\section{Design Principles} \label{cap:Designprinciples}
+
+The design principles of OmnAIView emphasize user-friendliness and adherence to well-defined standards. These principles include:
+
+**Consistency:**
+- All interface elements should have a consistent look and feel. This includes consistent use of colors, fonts, and button styles. Consistency helps users quickly become familiar with the interface and reduces the learning curve.
+
+**Clarity:**
+- The interface should be clear and intuitive. Labels, buttons, and instructions should be easy to understand. Avoid using jargon or complex terminology that might confuse users.
+
+**Responsiveness:**
+- The interface should be responsive and adapt to different screen sizes and resolutions. This ensures that users have a good experience regardless of the device they are using.
+
+**Accessibility:**
+- The interface should be accessible to all users, including those with disabilities. This includes providing alternative text for images, ensuring good contrast for text and background colors, and supporting keyboard navigation.
+
+**Feedback:**
+- The interface should provide immediate feedback to users' actions. This includes visual cues like button states and progress indicators, as well as notifications and messages that inform users of the status of their actions.
+
+By adhering to these design principles, OmnAIView aims to provide a user-friendly and efficient interface for configuring devices, conducting measurements, saving data, and analyzing results.
+
+\subsubsection{Design of Popup Windows}
+
+The design of Popup Windows in OmnAI View adheres to the following principles, providing a structured and user-friendly interface:
 
 \begin{itemize}
     \item \textbf{Shape:} Popup Windows are presented in a squared format, contributing to a clean and organized appearance.
@@ -518,9 +447,9 @@ The design of Popup Windows in OmniView adheres to the following principles, pro
     \item \textbf{Centralized Content:} Information or options that users can modify, interact with or that are send back to him are positioned in the middle of Popup Windows. This centralization enhances user focus on elements that may require attention or customization.
 \end{itemize}
 
-\subsubsection{Design of Buttons in Popup Windows}\label{cap:Designprinciples_PopupWindowButtons}
+\subsubsection{Design of Buttons in Popup Windows}
 
-Within Popup Windows in OmniView, buttons are designed with careful consideration for user interaction, ensuring a cohesive and intuitive experience:
+Within Popup Windows in OmnAI View, buttons are designed with careful consideration for user interaction, ensuring a cohesive and intuitive experience:
 
 \begin{itemize}
     \item \textbf{Cancel Buttons:} Cancel buttons exhibit a red border that becomes lighter when hovered. When clicked, the intensity increases for user feedback.
@@ -530,39 +459,38 @@ Within Popup Windows in OmniView, buttons are designed with careful consideratio
     \item \textbf{Other Buttons:} Buttons, excluding cancel and save, follow the standard Button or RadioButton design principles, maintaining consistency within the interface.
 \end{itemize}
 
-These button designs aim to provide users with a clear visual cue for interaction, ensuring a smooth and predictable experience within the Popup Windows of OmniView.
+These button designs aim to provide users with a clear visual cue for interaction, ensuring a smooth and predictable experience within the Popup Windows of OmnAI View.
 
-\subsection{Design of Icon Buttons}\label{cap:Designprinciples_IconButtons}
+\subsection{Design of Icon Buttons}
 
-Icon Buttons are presented as squares. Each Icon Button is adorned with a unique white symbol on a black background. On hover, they exhibit a red border. Upon clicking the border dissapears and the white symbol turns red. 
-
+Icon Buttons are presented as squares. Each Icon Button is adorned with a unique white symbol on a black background. On hover, they exhibit a red border. Upon clicking, the border disappears, and the white symbol turns red.
 
 The corresponding icons are showcased in Fig. \ref{fig: IconImages}.
 
 \begin{figure}
     \includegraphics[width=.7\textwidth]{assets/pictures/Icons.png}
-    \caption[]{The used Icons in the OmniView application}
+    \caption[]{The used Icons in the OmnAI View application}
     \label{fig: IconImages}
 \end{figure}
 
-
-
-\subsection{Design of a Drop-Down Menu with Checkmarks}\label{cap:Designprinciples_dropDownMenusWithCheckmark}
+\subsection{Design of a Drop-Down Menu with Checkmarks}
 
 A drop-down menu with checkmarks is visualized in Fig. \ref{fig: DragandDropwithCheckmarks}. The boxes feature a black background with a red border. Hovering over them results in a lighter red border and box. Upon clicking, a red checkmark is displayed within the box.
 
 \begin{figure}
     \includegraphics[width=.5\textwidth]{assets/pictures/DropDownMenu.png}
-    \caption[]{The used DropDownMenu Design in the OmniView application}
+    \caption[]{The used DropDownMenu Design in the OmnAI View application}
     \label{fig: DragandDropwithCheckmarks}
 \end{figure}
 
-\subsection{Sidebar Design}\label{cap: SideBarDesignMenu}
+\subsection{Sidebar Design}
 
-The sidebar backdrop adopts a black hue with the AI logo positioned at the top. The Text color is set to white. In the sidebarmenu Buttons and Treenodes exist. Those are complemented by unique icons, as illustrated in Fig. \ref{fig: SideMenuIcons}.
-When a SidebarMenu-Button is active, its text color turns red. 
-When a measurement is taken the "Search for new devices" Button Textcolor turns into a greyed out state. After the measurment resets the "Search for new devices" Button Textcolor turns white again.
-The Buttons of Treenode menus include arrows on the side. When the Button is hovered the background of the Button gets lighter. When the Buttons are clicked their arrow inverts und their text color and icon color turn red. 
+The sidebar backdrop adopts a black hue with the AI logo positioned at the top. The Text color is set to white. 
+In the sidebarmenu Buttons and Treenodes exist. Those are complemented by unique icons, as illustrated in Fig. \ref{fig: SideMenuIcons}.
+ When a SidebarMenu-Button is active, its text color turns red. When a measurement is taken, the "Search for new devices" Button Text color turns into a greyed-out state.
+  After the measurement resets, the "Search for new devices" Button Text color turns white again. The Buttons of Treenode menus include arrows on the side. 
+   When the Button is hovered the background of the Button gets lighter.
+ When the Buttons are clicked their arrow inverts und their text color and icon color turn red. 
 
 \begin{figure}
     \includegraphics[width=.4\textwidth]{assets/pictures/SideBarMenuButtons.png}
