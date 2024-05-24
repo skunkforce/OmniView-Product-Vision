@@ -157,11 +157,15 @@ Popup windows include:
 \item A window to analyze loaded or measured data.
 \item A settings window.
 \end{itemize}
-This list is not exhaustive. All popup windows should follow the same structure and design principles, which can be found in Chapter \ref{cap:Designprinciples}. An example of a popup window is shown in Chapter \ref{cap:Designprinciples_Popupwindows}.
+This list is not exhaustive.
+ All popup windows should follow the same structure and design principles, which can be found in Chapter \ref{cap:Designprinciples}. 
+ An example of a popup window is shown in Chapter \ref{cap:Designprinciples_Popupwindows}.
 
 \section{Toolbar}
 
-The toolbar, displayed at the top of the program, contains the company logo on the left side, a save button and a reset button on the right side, and start/stop measurement buttons in the middle. The specific placement of the start and stop buttons is still under consideration. A visual representation of the toolbar is shown in Figure \ref{fig:toolbar}.
+The toolbar, displayed at the top of the program, contains the company logo on the left side, 
+a save button on the right side, and start/stop measurement buttons as well as a reset button in the middle. 
+The specific placement of the start and stop buttons is still under consideration. A visual representation of the toolbar is shown in Figure \ref{fig:toolbar}.
 
 \begin{figure}
 \includegraphics[width=.9\textwidth]{assets/pictures/Toolbar states.png}
@@ -170,34 +174,50 @@ The toolbar, displayed at the top of the program, contains the company logo on t
 \end{figure}
 
 \subsection{Save Button}
-The save button, designed as an icon button according to the principles in Chapter \ref{cap:Designprinciples_IconButtons}, writes the measurement (a waveform stack) to storage. The storage options include the computer's file system, a Database Management System (DBMS), or a Cloud platform.
+The save button, designed as an icon button according to the principles in Chapter \ref{cap:Designprinciples_PopupButtons},
+ writes the measurement (a waveform stack) to storage. The storage options include the computer's file system, a Database Management System (DBMS), or a Cloud platform.
 
 \subsubsection{User Story for the Save Button}
 \begin{itemize}
 \item \textbf{Visibility Before Measurement:} The save button should be prominently visible.
 \item \textbf{Greyed-out During Measurement:} While the measurement is in progress, the save button should appear greyed out.
 \item \textbf{Post-Measurement Access:} Upon completion of the measurement, the save button should be accessible.
-\item \textbf{Prompt Save Window:} Clicking the save button should open a window designed according to the principles in Chapter \ref{cap:Designprinciples_Popupwindows}. A visual representation of the save window is shown in Figure \ref{fig:SavingWindow}.
+\item \textbf{Prompt Save Window:} Clicking the save button should open a window designed according to the principles in Chapter \ref{cap:Designprinciples_PopupWindow}.
+ A visual representation of the save window is shown in Figure \ref{fig:SavingWindow}.
 \end{itemize}
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/Popupwindow_png.png}
+    \caption[]{A visual representation of the Popupwindow: Saving}
+    \label{fig:SavingWindow}
+    \end{figure}
 
 \subsubsection{Save Window}
 The save window is divided into four sections:
 \begin{itemize}
 \item \textbf{Saving Path:} Users can choose a default path, manually enter a path, or select a path using a file browser.
 \item \textbf{Device Selection:} Users can select devices to save via a drop-down menu.
-\item \textbf{Additional Information:} Users can input vehicle information (VIN, measurement name, mileage) and select a vehicle type.
-\item \textbf{Save or Cancel:} Users can either save the settings or cancel the menu.
+\item \textbf{Additional Information:} Users can input the vehicle information (VIN, mileage) and select a vehicle type. Additionally they can input a measurement name.
+\item \textbf{Save or Cancel:} Users can either save the settings or cancel the menu. The data should be saved under the input path, as measurementname_omnAIscopeID. 
+\item \textbf{Saved file:} The saved file should be a .csv file. In the first line the metadata as well as the omnAIScopeID and the sampling rate should be saved. 
+                            Under that the waveform should be saved. 
 \end{itemize}
 
 \subsection{Reset Button}
 The reset button resets all measurements and reloads all connected devices. When pressed, a rotating symbol should appear until the app reconnects the devices and resets the data.
+This should not reset the data that was loaded extern. 
 
 \subsection{Start/Stop Button States}
 The specific placement of the start and stop buttons, whether in the toolbar or plot region, is still under consideration.
 
 \section{Plot Region}
 
-The plot region displays the data window where measurements are shown. It is positioned in the middle of the screen and adapts to the opening and closing of the devices list or sidebar menu. A visual representation of the data window is shown in Figure \ref{fig:datawindow}.
+The plot region displays the data window where measurements are shown.
+ It is positioned in the middle of the screen and adapts to the opening and closing of the devices list or sidebar menu. 
+ A visual representation of the data window is shown in Figure \ref{fig:datawindow}.
+
+ The axis of the data window adapt to the connected device. The axis show the devices measurement unit on the y-axis as well as the time in seconds on the x-axis. 
+ If more than one device with different measurement units is connected, there will be additional y-axis that can be edited seperately.
 
 \begin{figure}
 \includegraphics[width=.9\textwidth]{assets/pictures/Mainwindowopen.png}
@@ -233,16 +253,17 @@ A visual representation of the sidebar menu is shown in Figure \ref{fig:sidebarM
 \end{figure}
 
 \subsection{Searching Devices}
-The "Searching Devices" submenu contains a button that, when clicked, searches for connected devices. Found devices are displayed in the devices list menu, and connected omnAIScopes light up blue.
+The "Searching Devices" submenu contains a button that, when clicked, searches for connected devices. Found devices are displayed in the devices list menu, and connected OmnAIScopes light up in
+different colors.
 
 \subsection{Loading Old Data}
 The "Loading Old Data" submenu contains a button that opens the "Load Old Data" popup window. Configurations for this popup window are detailed in Section \ref{cap:PopupWindow_loadoldata}.
 
-\subsection{Diagnostics Menu}
-The Diagnostics menu is a drop-down menu with options for different analyses. Selecting an analysis type opens the associated popup window, described in Sections \ref{cap:PopupWindow_analysedata} and \ref{cap:PopupWindow_generate_training_data}.
+\subsection{Diagnostics}
+The Diagnostics button opens a popupwindow with options for different analyses or generating training data. The popupwindow and its functionality is described in section \ref{cap:Diagnostics}.
 
-\subsection{Settings Menu}
-The Settings menu is a drop-down menu with options for language selection and layout configuration. Selecting these options opens the corresponding settings windows, described in Section \ref{cap:PopupWindow_layout}.
+\subsection{Settings}
+The Settingsbutton opens a popupwindow "Settings menu" described in Section \ref{cap:PopupWindow_settings}.
 
 \subsection{Help Menu}
 The Help button directs users to a website. Before accessing the website, a popup window asks for confirmation.
@@ -251,8 +272,7 @@ The Help button directs users to a website. Before accessing the website, a popu
 
 This section describes the configuration and functionality of the various popup windows.
 
-
-\subsubsection{Popup Window: Layout} \label{cap:PopupWindow_layout}
+\subsubsection{Popup Window: Settings} \label{cap:PopupWindow_settings}
 
 The Layout popup window allows users to customize the appearance and configuration of the OmnAIView interface. This window is divided into several sections:
 
@@ -300,7 +320,11 @@ The Load Old Data popup window provides two main options for importing previousl
     \item Once a path is entered or a file is selected, users can click the "Load" (Laden) button to import the data. The data is then displayed in the Devices Menu and can be analyzed or manipulated as needed.
 \end{itemize}
 
-\subsubsection{Popup Window: Analyze Data} \label{cap:PopupWindow_analysedata}
+
+\subsubsection{Popup Window: Diagnostics}
+
+%this should be one popupwindow later on 
+\subsubsection{Popup Window: Analyze Data}\label{cap:PopupWindow_analysedata}
 
 The Analyze Data popup window is designed to guide users through the data analysis process. It consists of three stages:
 
@@ -319,7 +343,7 @@ The Analyze Data popup window is designed to guide users through the data analys
     \item Once the analysis is complete, the results are shown in the popup window. Users can view the results directly, or download a detailed report in PDF format by clicking the "Download PDF" (PDF herunterladen) button. The report includes visual representations of the data and detailed analysis results.
 \end{itemize}
 
-\subsubsection{Popup Window: Generate Training Data} \label{cap:PopupWindow_generate_training_data}
+\subsubsection{Popup Window: Generate Training Data}\label{cap:PopupWindow_generate_training_data}
 
 The Generate Training Data popup window facilitates the process of preparing data for training the AI model. It includes the following options:
 
@@ -384,7 +408,7 @@ The design principles of OmnAIView emphasize user-friendliness and adherence to 
     
 By adhering to these design principles, OmnAIView aims to provide a user-friendly and efficient interface for configuring devices, conducting measurements, saving data, and analyzing results.
     
-\subsubsection{Design of Popup Windows}
+\subsubsection{Design of Popup Windows}\label{cap:Designprinciples_Popupwindows}
 
 The design of Popup Windows in OmnAI View adheres to the following principles, providing a structured and user-friendly interface:
 
@@ -402,7 +426,15 @@ The design of Popup Windows in OmnAI View adheres to the following principles, p
     \item \textbf{Centralized Content:} Information or options that users can modify, interact with or that are send back to him are positioned in the middle of Popup Windows. This centralization enhances user focus on elements that may require attention or customization.
 \end{itemize}
 
-\subsubsection{Design of Buttons in Popup Windows}
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/Popupwindow_png.png}
+    \caption[]{A visual representation of a popupwindow}
+    \label{fig:popupwindow}
+    \end{figure}
+
+
+\subsubsection{Design of Buttons in Popup Windows}\label{cap:Designprinciples_PopupButtons}
 
 Within Popup Windows in OmnAI View, buttons are designed with careful consideration for user interaction, ensuring a cohesive and intuitive experience:
 
