@@ -274,11 +274,25 @@ This section describes the configuration and functionality of the various popup 
 
 \subsubsection{Popup Window: Settings} \label{cap:PopupWindow_settings}
 
-The Layout popup window allows users to customize the appearance and configuration of the OmnAIView interface. This window is divided into several sections:
+The Settings popup window allows users to customize the appearance and configuration of the OmnAIView interface. This window is divided into several sections:
 
+\textbf{Setting ID}
+\begin{itemize}
+    Users can set their ID by writing it into the Input field. There should be a disclaimer that the ID can only be set once. 
+    The ID will be written into the config. 
+\end{itemize}
+
+\textbf{Language options}
+\begin{itemize}
+    Users can choose between different languages. Currently available are English and German. 
+\end{itemize}
+
+\textbf{Graphical options}
+
+The following point should be in a TreeNode \textbf{Graphical Settings} [grafische Einstellungen]
 \textbf{Theme Selection:}
 \begin{itemize}
-    \item Users can choose between different themes such as Light, Dark, and High Contrast. Each theme should be visually distinct to accommodate various user preferences and needs.
+    \item Users can choose between different themes such as Light and Dark. Each theme should be visually distinct to accommodate various user preferences and needs.
 \end{itemize}
 
 \textbf{Font Settings:}
@@ -286,14 +300,12 @@ The Layout popup window allows users to customize the appearance and configurati
     \item This section includes options to change the font type, size, and color. Users can preview the font changes in a sample text box before applying them.
 \end{itemize}
 
-\textbf{Color Customization:}
-\begin{itemize}
-    \item Users can customize the colors of different interface elements such as the toolbar, sidebar menu, and data window. A color picker tool should be available for precise color selection.
-\end{itemize}
+At the end of the menu there is a save, back and rest button. The reset button allows users to revert all settings to the default configuration if needed. The back button will not change any settings.
+The saves button applies the settings and saves them in the config, so the settings are still this way when the user opens the application again. 
 
 \textbf{Reset to Default:}
 \begin{itemize}
-    \item A reset button allows users to revert all settings to the default configuration if needed.
+    \item 
 \end{itemize}
 
 \subsubsection{Popup Window: Load Old Data} \label{cap:PopupWindow_loadoldata}
