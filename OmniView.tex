@@ -156,6 +156,7 @@ Popup windows include:
 \item A window to generate training data from loaded or measured data.
 \item A window to analyze loaded or measured data.
 \item A settings window.
+\item A window where the user can create a new case or load an old case 
 \end{itemize}
 This list is not exhaustive.
  All popup windows should follow the same structure and design principles, which can be found in Chapter \ref{cap:Designprinciples}. 
@@ -350,6 +351,58 @@ After selecting the files the user can either go back with the back button, whic
 How the loaded data can be used, is described in the chapter \ref{cap:UsingOldData}. 
 
 \subsubsection{Popup Window: Diagnostics}
+
+The Popup Window \textbf{Diagnostics} in its original form was seperated into an analyze popup window and a generate training data menu.
+Including the newest APIs and the HUB in a enveloped version this should be merged into one menu. The seperation of generating and analyzing will be made through buttons instead of seperated menus.
+
+The Popupwindow includes two steps: 
+
+\begin{itemize}
+    \item Generating a case or loading an old case 
+    \item Generating And/Or analyzing data 
+\end{itemize}
+
+\textbf{Step 1: Generating a Case}
+
+In the first step, the Popup Window \textbf{Generating a Case} will open. Here, the user can either generate a new case or load an existing one.
+
+A case is defined as one car case in one workshop at a specific time. One case can include multiple analyses, 
+data, and metadata but is limited to a single car and a single workshop. A case includes:
+\begin{itemize}
+    \item The VIN (Vehicle Identification Number) of the car
+    \item The mileage of the car
+    \item A customer ID (default is \textbf{unknown})
+    \item An occasion, such as a service routine
+\end{itemize}
+
+The menu is depicted in \ref{fig: GeneratingCasePopup}. It contains the following elements:
+\begin{itemize}
+    \item A header with the text: "Generate a new case here. One case is one car visit. If you already have a case for the car visit, please load your old case in the second section."
+    \item Input fields for: VIN, Mileage, Customer ID (optional), Occasion
+    \item A button: \textbf{Create a New Case}
+    \item A second section separated by a line
+    \item The text: "Load your old case here"
+    \item An input field for: VIN
+    \item A button: \textbf{Load Old Case}
+\end{itemize}
+
+The user flow should be as follows:
+
+\begin{itemize}
+    \item The user clicks on the Diagnostics button.
+    \item The \textbf{Generate a New Case} window opens.
+    \item The user has the option to create a new case or to load an old case.
+    \item If the user chooses to create a new case, they must input all required information into the corresponding fields.
+    \item If the user clicks the \textbf{Create a New Case} button without filling in all required information, they should receive the message: "Please enter all required information."
+    \item If all information is provided, the case should be created, the window should close, and the \textbf{Generating And/Or Analyzing Data} popup window should open.
+    \item If the user chooses to load an old case, they should enter the VIN into the corresponding input field.
+    \item If the user clicks the \textbf{Load Old Case} button without entering a VIN, they should receive the message: "Please enter a VIN."
+    \item If the user clicks the \textbf{Load Old Case} button and the VIN does not correspond to any existing case, they should receive the message: "Please create a case for this VIN. This VIN does not exist in our systems."
+    \item If the user clicks the \textbf{Load Old Case} button and enters a valid VIN, the case should be loaded, the window should close, and the \textbf{Generating And/Or Analyzing Data} popup window should open.
+\end{itemize}
+
+
+
 
 %this should be one popupwindow later on 
 \subsubsection{Popup Window: Analyze Data}\label{cap:PopupWindow_analysedata}
