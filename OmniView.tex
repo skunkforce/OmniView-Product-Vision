@@ -354,6 +354,8 @@ How the loaded data can be used, is described in the chapter \ref{cap:UsingOldDa
 
 The Popup Window \textbf{Diagnostics} in its original form was seperated into an analyze popup window and a generate training data menu.
 Including the newest APIs and the HUB in a enveloped version this should be merged into one menu. The seperation of generating and analyzing will be made through buttons instead of seperated menus.
+This menu is only the analyze menu for analysis that are used for a mechanical analysis. Later on there also should exists a menu \textbf{mathematical analysis} where the user can analyze their data 
+with simple mathematical analysis that are not dependend on a measured component but rather for educational purposes. 
 
 The Popupwindow includes two steps: 
 
@@ -401,52 +403,76 @@ The user flow should be as follows:
     \item If the user clicks the \textbf{Load Old Case} button and enters a valid VIN, the case should be loaded, the window should close, and the \textbf{Generating And/Or Analyzing Data} popup window should open.
 \end{itemize}
 
+\subsubsection{Generating And/Or Analyzing Data}
 
+This menu retains the core functionality of the previous analyzing and generating training data 
+menus but offers greater flexibility and additional options. It is depicted in Figure \ref{fig: PopUp_GenerateData}.
 
+The menu includes the following elements:
 
-%this should be one popupwindow later on 
-\subsubsection{Popup Window: Analyze Data}\label{cap:PopupWindow_analysedata}
-
-The Analyze Data popup window is designed to guide users through the data analysis process. It consists of three stages:
-
-\textbf{Before Analysis:}
 \begin{itemize}
-    \item The user can choose the type of analysis to perform from a dropdown menu. Options might include time-series analysis, frequency analysis, or custom scripts. Once the selection is made, the user can start the analysis by clicking the "Start Analysis" (Analyse starten) button or cancel the process with the "Cancel" (Abbrechen) button.
+    \item A header with the title: "In this menu, you can generate training data, analyze your data, or do both."
+    \item A label: "Select the measured component"
+    \item A drop-down menu listing the possible measured components: Battery, Mass Air Flow Sensor, Lambda Sensor (Oxygen Sensor), Crankshaft, Camshaft
+    \item A label: "Enter your measured data"
+    \item Two radio buttons: \textbf{Use current waveform} and \textbf{Use data from storage}
+    \item A drop-down menu with options for connected devices (when the \textbf{Use current waveform} radio button is selected)
+    \item An input field with an aligned \textbf{Browse} button, allowing the user to load a file from the system or type in the file path (when the \textbf{Use data from storage} 
+    radio button is selected)
+    \item A field displaying the VIN
+    \item A field displaying the mileage
+    \item Dynamically loaded radio buttons and input fields, depending on the selected component (specific radio buttons for each case are requested from an API)
+    \item A label: "Add a VCDS file"
+    \item A checkbox, an input field for a path, and a \textbf{Browse} button on the same line, allowing the user to select their VCDS file
+    \item A label: "Add symptoms"
+    \item A symptom block consisting of a checkbox, a drop-down menu to select a component, and an input field where the user can enter a string up to 30 characters to describe symptoms
+    \item A \textbf{Plus} button to add more symptom blocks
+    \item Additional symptom blocks (when the user clicks the \textbf{Plus} button)
+    \item An input field where the user can enter a string up to 500 characters. The default text in this input field should be \textbf{Enter a comment (optional)}
+    \item A \textbf{Back} button at the bottom left
+    \item A \textbf{Generate training data}, \textbf{Analyze data}, \textbf{Generate Training data and Analyze data} button at the bottom right
 \end{itemize}
 
-\textbf{During Analysis:}
+\subsubsection{User Flow}
+
+The user flow should proceed as follows:
+
 \begin{itemize}
-    \item A progress bar is displayed to indicate the status of the analysis. During this stage, all options are greyed out except for the cancel button. This ensures that the user is aware that the analysis is ongoing and prevents accidental changes.
+    \item The user creates a new case or loads an existing case.
+    \item The information entered for the case, specifically the VIN and mileage, is displayed in the corresponding fields.
+    \item The user selects a component from the drop-down menu.
+    \item All relevant radio buttons and input fields are dynamically loaded and displayed.
+    \item The user chooses either \textbf{Use current waveform} or \textbf{Use data from storage} via the radio buttons.
+    \item Depending on the chosen option, either the drop-down menu or the input field is displayed beneath the corresponding radio button.
+    \item The user can select only one device to send the measured data.
+    \item Alternatively, the user can select a .csv file containing measured data via the browse button or by typing in the file path.
+    \item After selecting a waveform, the user can set the parameters for the dynamically loaded radio buttons and input fields.
+    \item The user can decide whether to send VCDS data by checking the corresponding checkbox. The data will only be sent if the checkbox is selected.
+    \item If the checkbox is checked, the user inputs the data either by manually entering the path or by selecting a file from the file browser.
+    \item The user can decide whether to add symptoms via the checkbox.
+    \item If the checkbox is checked, the user can select a component from the drop-down menu and enter the symptom in the additional input field.
+    \item To add another symptom, the user can click the \textbf{Plus} button, which will trigger an additional symptom block to appear beneath the first one.
+    \item This behavior is recursive.
+    \item In the final block, the user can write a comment.
 \end{itemize}
 
-\textbf{After Analysis:}
+After entering all the information, the user can either go \textbf{Back}, which deletes all the entered information, or click on one of the \textbf{Send} buttons.
+ Clicking on a \textbf{Send} button triggers the following actions:
+
 \begin{itemize}
-    \item Once the analysis is complete, the results are shown in the popup window. Users can view the results directly, or download a detailed report in PDF format by clicking the "Download PDF" (PDF herunterladen) button. The report includes visual representations of the data and detailed analysis results.
+    \item \textbf{Generate Training Data}: This option sends the selected data to the corresponding APIs.
+     A \textbf{Sending} icon will appear, and the user receives a confirmation message once the data has been successfully sent.
+    \item \textbf{Analyze Data}: This option sends the selected data to the corresponding APIs. A \textbf{Sending} icon will appear, 
+    and the user receives a confirmation message once the data has been successfully sent. Additionally, a popup will display a progress bar indicating the status of the analysis.
+     During this stage, all options are greyed out except for the cancel button to prevent accidental changes. Once the analysis is complete, the results are shown in the popup window.
+      Users can view the results directly or download a detailed report in PDF format by clicking the "Download PDF" button. The report includes visual representations of the data
+       and detailed analysis results.
+    \item \textbf{Generate Training Data and Analyze Data}: When generating training data and analyzing data simultaneously, two \textbf{Sending} buttons appear. 
+    First, the user receives confirmation that the data was sent successfully. Only after this confirmation does the popup window displaying the progress bar open. 
+    The rest of the process is similar to the \textbf{Analyze Data} option.
 \end{itemize}
 
-\subsubsection{Popup Window: Generate Training Data}\label{cap:PopupWindow_generate_training_data}
-
-The Generate Training Data popup window facilitates the process of preparing data for training the AI model. It includes the following options:
-
-\textbf{Waveform Selection:}
-\begin{itemize}
-    \item Users can select which waveform or waveform stack to use for training from a dropdown menu. The menu lists all available waveforms with their respective names.
-\end{itemize}
-
-\textbf{Additional Information:}
-\begin{itemize}
-    \item Users can input metadata such as the name of the training session, a description, and any relevant tags. This information is useful for organizing and retrieving training data later.
-\end{itemize}
-
-\textbf{Configuration Settings:}
-\begin{itemize}
-    \item Users can adjust settings for the training process, such as the number of training iterations, batch size, and learning rate. These settings allow users to fine-tune the training process according to their requirements.
-\end{itemize}
-
-\textbf{Send to API:}
-\begin{itemize}
-    \item After configuring the settings, users can click the "Send to API" (An API senden) button to submit the data for training. A confirmation message is displayed to ensure that the user wants to proceed with the training process.
-\end{itemize}
+    
 
 \section{Using loaded data in the application}\label{cap:UsingOldData}
 
