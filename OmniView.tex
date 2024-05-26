@@ -352,24 +352,20 @@ How the loaded data can be used, is described in the chapter \ref{cap:UsingOldDa
 
 \subsubsection{Popup Window: Diagnostics}
 
-The Popup Window \textbf{Diagnostics} in its original form was seperated into an analyze popup window and a generate training data menu.
-Including the newest APIs and the HUB in a enveloped version this should be merged into one menu. The seperation of generating and analyzing will be made through buttons instead of seperated menus.
-This menu is only the analyze menu for analysis that are used for a mechanical analysis. Later on there also should exists a menu \textbf{mathematical analysis} where the user can analyze their data 
-with simple mathematical analysis that are not dependend on a measured component but rather for educational purposes. 
+The Popup Window \textbf{Diagnostics} was originally divided into an analysis popup window and a generate training data menu. With the inclusion of the latest APIs and the HUB, these should be merged into a single menu. The separation of generating and analyzing will be managed through buttons rather than separate menus. This menu focuses on mechanical analysis, and a separate menu for \textbf{Mathematical Analysis} will be available later for users to perform simple mathematical analyses for educational purposes.
 
-The Popupwindow includes two steps: 
+The Popup Window involves two steps:
 
 \begin{itemize}
-    \item Generating a case or loading an old case 
-    \item Generating And/Or analyzing data 
+    \item Generating a case or loading an existing case
+    \item Generating and/or analyzing data
 \end{itemize}
 
 \textbf{Step 1: Generating a Case}
 
-In the first step, the Popup Window \textbf{Generating a Case} will open. Here, the user can either generate a new case or load an existing one.
+In the first step, the Popup Window \textbf{Generating a Case} opens. Here, the user can generate a new case or load an existing one.
 
-A case is defined as one car case in one workshop at a specific time. One case can include multiple analyses, 
-data, and metadata but is limited to a single car and a single workshop. A case includes:
+A case is defined as one car case in one workshop at a specific time. A single case can include multiple analyses, data, and metadata but is limited to one car and one workshop. A case includes:
 \begin{itemize}
     \item The VIN (Vehicle Identification Number) of the car
     \item The mileage of the car
@@ -377,7 +373,7 @@ data, and metadata but is limited to a single car and a single workshop. A case 
     \item An occasion, such as a service routine
 \end{itemize}
 
-The menu is depicted in \ref{fig: GeneratingCasePopup}. It contains the following elements:
+The menu is depicted in Figure \ref{fig: GeneratingCasePopup}. It contains the following elements:
 \begin{itemize}
     \item A header with the text: "Generate a new case here. One case is one car visit. If you already have a case for the car visit, please load your old case in the second section."
     \item Input fields for: VIN, Mileage, Customer ID (optional), Occasion
@@ -396,17 +392,18 @@ The user flow should be as follows:
     \item The user has the option to create a new case or to load an old case.
     \item If the user chooses to create a new case, they must input all required information into the corresponding fields.
     \item If the user clicks the \textbf{Create a New Case} button without filling in all required information, they should receive the message: "Please enter all required information."
-    \item If all information is provided, the case should be created, the window should close, and the \textbf{Generating And/Or Analyzing Data} popup window should open.
+    \item If all information is provided, the case should be created, the window should close, and the \textbf{Generating and/or Analyzing Data} popup window should open.
     \item If the user chooses to load an old case, they should enter the VIN into the corresponding input field.
     \item If the user clicks the \textbf{Load Old Case} button without entering a VIN, they should receive the message: "Please enter a VIN."
-    \item If the user clicks the \textbf{Load Old Case} button and the VIN does not correspond to any existing case, they should receive the message: "Please create a case for this VIN. This VIN does not exist in our systems."
-    \item If the user clicks the \textbf{Load Old Case} button and enters a valid VIN, the case should be loaded, the window should close, and the \textbf{Generating And/Or Analyzing Data} popup window should open.
+    \item If the user clicks the \textbf{Load Old Case} button and the VIN does not correspond to any existing case, they should receive the message: 
+    "Please create a case for this VIN. This VIN does not exist in our systems."
+    \item If the user clicks the \textbf{Load Old Case} button and enters a valid VIN, the case should be loaded, the window should close, 
+    and the \textbf{Generating and/or Analyzing Data} popup window should open.
 \end{itemize}
 
-\subsubsection{Generating And/Or Analyzing Data}
+\subsubsection{Generating and/or Analyzing Data}
 
-This menu retains the core functionality of the previous analyzing and generating training data 
-menus but offers greater flexibility and additional options. It is depicted in Figure \ref{fig: PopUp_GenerateData}.
+This menu retains the core functionality of the previous analyzing and generating training data menus but offers greater flexibility and additional options. It is depicted in Figure \ref{fig: PopUp_GenerateData}.
 
 The menu includes the following elements:
 
@@ -417,8 +414,7 @@ The menu includes the following elements:
     \item A label: "Enter your measured data"
     \item Two radio buttons: \textbf{Use current waveform} and \textbf{Use data from storage}
     \item A drop-down menu with options for connected devices (when the \textbf{Use current waveform} radio button is selected)
-    \item An input field with an aligned \textbf{Browse} button, allowing the user to load a file from the system or type in the file path (when the \textbf{Use data from storage} 
-    radio button is selected)
+    \item An input field with an aligned \textbf{Browse} button, allowing the user to load a file from the system or type in the file path (when the \textbf{Use data from storage} radio button is selected)
     \item A field displaying the VIN
     \item A field displaying the mileage
     \item Dynamically loaded radio buttons and input fields, depending on the selected component (specific radio buttons for each case are requested from an API)
@@ -430,7 +426,7 @@ The menu includes the following elements:
     \item Additional symptom blocks (when the user clicks the \textbf{Plus} button)
     \item An input field where the user can enter a string up to 500 characters. The default text in this input field should be \textbf{Enter a comment (optional)}
     \item A \textbf{Back} button at the bottom left
-    \item A \textbf{Generate training data}, \textbf{Analyze data}, \textbf{Generate Training data and Analyze data} button at the bottom right
+    \item \textbf{Generate Training Data}, \textbf{Analyze Data}, \textbf{Generate Training Data and Analyze Data} buttons at the bottom right
 \end{itemize}
 
 \subsubsection{User Flow}
@@ -456,20 +452,12 @@ The user flow should proceed as follows:
     \item In the final block, the user can write a comment.
 \end{itemize}
 
-After entering all the information, the user can either go \textbf{Back}, which deletes all the entered information, or click on one of the \textbf{Send} buttons.
- Clicking on a \textbf{Send} button triggers the following actions:
+After entering all the information, the user can either go \textbf{Back}, which deletes all the entered information, or click on one of the \textbf{Send} buttons. Clicking on a \textbf{Send} button triggers the following actions:
 
 \begin{itemize}
-    \item \textbf{Generate Training Data}: This option sends the selected data to the corresponding APIs.
-     A \textbf{Sending} icon will appear, and the user receives a confirmation message once the data has been successfully sent.
-    \item \textbf{Analyze Data}: This option sends the selected data to the corresponding APIs. A \textbf{Sending} icon will appear, 
-    and the user receives a confirmation message once the data has been successfully sent. Additionally, a popup will display a progress bar indicating the status of the analysis.
-     During this stage, all options are greyed out except for the cancel button to prevent accidental changes. Once the analysis is complete, the results are shown in the popup window.
-      Users can view the results directly or download a detailed report in PDF format by clicking the "Download PDF" button. The report includes visual representations of the data
-       and detailed analysis results.
-    \item \textbf{Generate Training Data and Analyze Data}: When generating training data and analyzing data simultaneously, two \textbf{Sending} buttons appear. 
-    First, the user receives confirmation that the data was sent successfully. Only after this confirmation does the popup window displaying the progress bar open. 
-    The rest of the process is similar to the \textbf{Analyze Data} option.
+    \item \textbf{Generate Training Data}: This option sends the selected data to the corresponding APIs. A \textbf{Sending} icon will appear, and the user receives a confirmation message once the data has been successfully sent.
+    \item \textbf{Analyze Data}: This option sends the selected data to the corresponding APIs. A \textbf{Sending} icon will appear, and the user receives a confirmation message once the data has been successfully sent. Additionally, a popup will display a progress bar indicating the status of the analysis. During this stage, all options are greyed out except for the cancel button to prevent accidental changes. Once the analysis is complete, the results are shown in the popup window. Users can view the results directly or download a detailed report in PDF format by clicking the "Download PDF" button. The report includes visual representations of the data and detailed analysis results.
+    \item \textbf{Generate Training Data and Analyze Data}: When generating training data and analyzing data simultaneously, two \textbf{Sending} buttons appear. First, the user receives confirmation that the data was sent successfully. Only after this confirmation does the popup window displaying the progress bar open. The rest of the process is similar to the \textbf{Analyze Data} option.
 \end{itemize}
 
     
