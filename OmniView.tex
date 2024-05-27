@@ -432,7 +432,7 @@ The Popup Window \textbf{Diagnostics} was originally divided into an analysis po
  and a separate menu for \textbf{Mathematical Analysis} will be available later for users to perform simple mathematical analyses for educational purposes.
 
 
-The Popup Window involves two steps:
+The Popup Window involves three steps:
 
 
 \begin{itemize}
@@ -442,7 +442,7 @@ The Popup Window involves two steps:
 \end{itemize}
 
 
-\textbf{Step 1: Generating a Case}
+\textbf{Step 1: Generating a car visit}
 
 
 In the first step, the Popup Window \textbf{Generating a Case} opens. Here, the user can generate a new visit or load an existing one.
@@ -464,7 +464,7 @@ The menu is depicted in Figure \ref{fig: GeneratingCasePopup}. It contains the f
     \item Input fields for: VIN, Mileage, Customer ID (optional), Occasion
     \item A button: \textbf{Create a New Case}
     \item A second section separated by a line
-    \item The text: "Load your old case here"
+    \item The text: "Load your old car visit here"
     \item An input field for: VIN
     \item A button: \textbf{Load Old Case}
 \end{itemize}
@@ -475,15 +475,15 @@ The user flow should be as follows:
 
 \begin{itemize}
     \item The user clicks on the Diagnostics button.
-    \item The \textbf{Generate a New Case} window opens.
-    \item The user has the option to create a new case or to load an old case.
+    \item The \textbf{Generate a New Car Visit} window opens.
+    \item The user has the option to create a new car visit or to load an old visit.
     \item If the user chooses to create a new case, they must input all required information into the corresponding fields.
-    \item If the user clicks the \textbf{Create a New Case} button without filling in all required information, they should receive the message: "Please enter all required information."
+    \item If the user clicks the \textbf{Create a car visit} button without filling in all required information, they should receive the message: "Please enter all required information."
     \item If all information is provided, the case should be created, the window should close, and the \textbf{Generate or load a case} popup window should open.
     \item If the user chooses to load an old case, they should enter the VIN into the corresponding input field.
-    \item If the user clicks the \textbf{Load Old Case} button without entering a VIN, they should receive the message: "Please enter a VIN."
-    \item If the user clicks the \textbf{Load Old Case} button and the VIN does not correspond to any existing case, they should receive the message: "Please create a case for this VIN. This VIN does not exist in our systems."
-    \item If the user clicks the \textbf{Load Old Case} button and enters a valid VIN, the case should be loaded, the window should close, and the \textbf{Generate or load a case} popup window should open.
+    \item If the user clicks the \textbf{Load Old visit} button without entering a VIN, they should receive the message: "Please enter a VIN."
+    \item If the user clicks the \textbf{Load Old visit} button and the VIN does not correspond to any existing case, they should receive the message: "Please create a case for this VIN. This VIN does not exist in our systems."
+    \item If the user clicks the \textbf{Load Old visit} button and enters a valid VIN, the case should be loaded, the window should close, and the \textbf{Generate or load a case} popup window should open.
 \end{itemize}
 
 
