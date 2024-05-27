@@ -15,340 +15,339 @@
 
 
 \begin{document}
-
-% \chapter{The Idea of OmniView}
-% OmniView is planned to be an omniscient data-visualization and analysis tool. 
-% OmniView itself shouldn't need to know anything about any given data-producer at compile-time, but should still be able to visualize the produced information.
-% OmniView itself shouldn't need to know anything about any given analysis-tool at compile-time, but should still be able to use an analysis-API. 
-% In order for OmniView to work this way, there shall be a structured architectural approach, to enable modular development.
-% This includes dataproducer devices as well as analysis-tools.
-
-% \section[Modules]{Modules of OmniView and their Role}
-% The Name OmniView actually only applies to the executable instance, that is in charge of displaying gathered data in a way similar to PicoScope or sigrok, whether it's live or archived data. 
-% Since (well-designed) modularity can help keeping the complexity of a system in check, the greater OmniView-Architecture is a project of the Bochumer AI-Group.
-% \\
-% A oscilloscope-like user-interface is the most generic way, to display data as a function over time. 
-% All measurement-values are a sample of a certain unit (sometimes even an SI-Unit) at a specific point in time, and thus projectable onto a plane with its unit in y- and the time in x-dimension. 
-% Displaying a multitude of different y-dimensions in an oscillogram is a well-proven design and has been implemented in several data-recorder software-suites. 
-% \\
-% Incoming live-data into the view is delivered via a websocket connection.
-% There won't be hard real-time guarantees in this interface. 
-% This websocket is provided by an entity that implements the concept of an epoch-server.
-% Soft real-time can be guaranteed to a certain extend in the internal structure of the epoch-server and its storage-interface.
-% Due to the nature of live-updates of a GUI, new updates are being received on a regular basis and prepended to the n-1 dataset.
-% Each update-object that contains data to be prepended, and displayed in the oscillogram is called a column. 
-% It derives its name from the property, that it holds several values of different data-channels in parallel.
-% The aggregation to a continuous stream of such pieces of information that belong to one channel is called a waveform. 
-% \\
-% An epoch-server has the ability to maintain multiple websocket connections, and an OmniView-Instance has the ability to maintain connections to multiple epoch-servers. 
-% Before a view can instantiate a connection with a websocket, it queries the epoch-servers REST-API, to receive a structure know as possibility-list.
-% This list contains all available devices, and all available transducers. 
-% A transducer is a function that works as a filter.
-% It implements a directed node, taking one or more waveforms as an input and having exactly one waveform as an output. 
-% Using transducers, a so-called (processing-)route can be constructed. 
-% A route is a directed graph composed from transducer-nodes. 
-% For further investigation see \ref{chap:WaveformProcessingNetwork}.
-% The structure inside the epoch server that defines which channels are being send out to a specific connection is called the connections visibility-list. 
-% This list in combination with a checkbox will also be displayed in the view.
-
-% \begin{figure}
-%     \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
-%     \caption{Overview of Modules}
-%     \label{fig:Overview}
-% \end{figure}
-
-% \section[Greater Picture]{OmniView and its Role in the Greater Picture}
-% Auto-Intern GmbH and their connected entities have been working on a unified architecture for measurement- and monitoring-devices since the early 2000s. 
-% Integrating measurement-systems into larger architectures is by no means a trivial task.
-% OmniView fits into the Grand-Unified-Monitoring-Architecture of Auto-Intern.
-
-
-% \begin{figure}
-%     \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
-%     \caption[]{Brief overview of the proposed structure}
-%     \label{fig:overview}
-% \end{figure}
-
-
-% There shall be a unified way to interact with an abstract data-producer.
-% This includes devices such as:
-% \begin{enumerate}
-%     \item a USB-oscilloscope \gls{latex}
-%     \item a TCP/IP client, sending a continuous stream
-%     \item a USB-logic-analyzer
-%     \item a random-number-generator
-%     \item a filedescriptor
-% \end{enumerate}
-
-% Since it is not known at compile-time, which devices will be used at runtime, the code can't be linked statically into OmniView (or any other data-\gls{consumer} for that matter). 
-% Therefor an interface shall be defined, that gets used by the consumer, but the implementation of the data-handling ought to be provided in a dynamically linked library. 
-% From here on forward we will refer to this as \lstinline|DLL| even though \lstinline|.dll| and \lstinline|.so| are meant equally. 
-% If a windows \lstinline|.dll| or a linux \lstinline|.so| is meant specifically, please use the terms \lstinline|.dll| or \lstinline|.so|, otherwise \lstinline|DLL|. 
-% Be aware, that this \lstinline|DLL| does not necessarily constitue an aquivalent to an actual device-driver with a communication-channel to the systems kernel.
-% \\
-% It appears, that all dataproducers that are relevant for OmniView can be abstracted in a certain way, and thus share the same function-calls in a \lstinline|DLL|.
-% There are three requirements:
-% \begin{itemize}
-%     \item Grabbing the next part of the data-stream asynchronusly
-%     \item The data-producer providing meta-information about itself 
-%     \item Send control-data from the consumer to the data-producer
-% \end{itemize}
-% This interprocess-communication comes with some additional hurdles.
-
-% \section{Memory Management Ideology}
-% Not only does OmniView not know about which devices will be connected at runtime, it also does neither know about the amount of devices that will be attached, nor does it know what data-rate the producers will provide.
-% Due to this uncertainties, a strongly structured memory allocation ideology needs to be implemented in order to minimize error-prone sections in the applications code.
-
-
-% \section[UaDI]{Unified abstract Data\-producer Interface}
-% The \textit{Unified abstract Data\-producer Interface} is the protocol that specifies the interprocess\-communication between the con\-sumer and the device, using the \lstinline|DLL|. 
-
-% \begin{figure}
-%     \includegraphics[width=.9\textwidth]{./assets/pictures/interface.pdf}
-%     \caption[]{Coarse structure of the DLL-interface}
-%     \label{fig:dllinterface}
-% \end{figure}
-
-
-% \input{producers.tex}
-% \input{waveformprocessingnetwork.tex}
-% \input{furtherDevl.tex}
-% \section{User Interface}
-
-% The following chapters describe the user interface of the omnAIView application, providing a detailed overview of its various components and their functionality. The design of these components is also introduced here, while a more thorough explanation of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should adhere to these principles. If there are any questions after reading the description, they can be added as issues for the FAQ.
-
-% The user interface is currently implemented in C++, with plans to transition to JavaScript in a subsequent phase. This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about omnAIView and omnAIScope.
-
-% The application is divided into four main regions: the Toolbar, the Sidebar Menu, the Plot Region, and the Devices Menu.
-
-% \subsection{Basic Interface}
-
-% The basic interface includes:
-% \begin{itemize}
-% \item A top bar featuring the company name, a save button, and start/stop measurement buttons.
-% \item An adjustable window where data is displayed.
-% \item A sidebar for:
-%     \begin{itemize}
-%     \item Searching devices
-%     \item Loading old data
-%     \item Diagnostics
-%     \item Settings
-%     \item Help
-%     \end{itemize}
-% \item A bottom window, which can be minimized, displaying connected devices and loaded data files.
-% \item Several popup windows for functions such as analysis.
-% \end{itemize}
-
-% The size of the GUI should adapt to the screen size being used. The design is illustrated in Figure \ref{fig:GUI}.
-
-% \begin{figure}[!h]
-% \includegraphics[width=.9\textwidth]{./assets/pictures/DatawindowVersion1.0.png}
-% \caption[]{A visual representation of the GUI interface with all menus selected}
-% \label{fig:GUI}
-% \end{figure}
-
-% The language displayed in the pictures is German.
-
-% Popup windows include:
-% \begin{itemize}
-% \item A window to load old data from the filesystem into the application.
-% \item A window to save the measured data.
-% \item A window to generate training data from loaded or measured data.
-% \item A window to analyze loaded or measured data.
-% \item A settings window.
-% \item A window where the user can create a new case or load an old case 
-% \end{itemize}
-% This list is not exhaustive.
-%  All popup windows should follow the same structure and design principles, which can be found in Chapter \ref{cap:Designprinciples}. 
-%  An example of a popup window is shown in Chapter \ref{cap:Designprinciples_Popupwindows}.
-
-% \section{Toolbar}
-
-% The toolbar, displayed at the top of the program, contains the company logo on the left side, 
-% a save button on the right side, and start/stop measurement buttons as well as a reset button in the middle. 
-% The specific placement of the start and stop buttons is still under consideration. A visual representation of the toolbar is shown in Figure \ref{fig:toolbar}.
-
-% \begin{figure}
-% \includegraphics[width=.9\textwidth]{assets/pictures/Toolbar states.png}
-% \caption[]{A visual representation of the toolbar with different buttons}
-% \label{fig:toolbar}
-% \end{figure}
-
-% \subsection{Save Button}
-% The save button, designed as an icon button according to the principles in Chapter \ref{cap:Designprinciples_PopupButtons},
-%  writes the measurement (a waveform stack) to storage. The storage options include the computer's file system, a Database Management System (DBMS), or a Cloud platform.
-
-% \subsubsection{User Story for the Save Button}
-% \begin{itemize}
-% \item \textbf{Visibility Before Measurement:} The save button should be prominently visible.
-% \item \textbf{Greyed-out During Measurement:} While the measurement is in progress, the save button should appear greyed out.
-% \item \textbf{Post-Measurement Access:} Upon completion of the measurement, the save button should be accessible.
-% \item \textbf{Prompt Save Window:} Clicking the save button should open a window designed according to the principles in Chapter \ref{cap:Designprinciples_PopupWindow}.
-%  A visual representation of the save window is shown in Figure \ref{fig:SavingWindow}.
-% \end{itemize}
-
-% \begin{figure}
-%     \includegraphics[width=.9\textwidth]{assets/pictures/Popupwindow_png.png}
-%     \caption[]{A visual representation of the Popupwindow: Saving}
-%     \label{fig:SavingWindow}
-%     \end{figure}
-
-% \subsubsection{Save Window}
-% The save window is divided into four sections:
-% \begin{itemize}
-% \item \textbf{Saving Path:} Users can choose a default path, manually enter a path, or select a path using a file browser.
-% \item \textbf{Device Selection:} Users can select devices to save via a drop-down menu.
-% \item \textbf{Additional Information:} Users can input the vehicle information (VIN, mileage) and select a vehicle type. Additionally they can input a measurement name.
-% \item \textbf{Save or Cancel:} Users can either save the settings or cancel the menu. The data should be saved under the input path, as measurementname-omnAIscopeID. 
-% \item \textbf{Saved file:} The saved file should be a .csv file. In the first line the metadata as well as the omnAIScopeID and the sampling rate should be saved. 
-%                             Under that the waveform should be saved. 
-% \end{itemize}
-
-% \subsection{Reset Button}
-% The reset button resets all measurements and reloads all connected devices. When pressed, a rotating symbol should appear until the app reconnects the devices and resets the data.
-% This should not reset the data that was loaded extern. 
-
-% \subsection{Start/Stop Button States}
-% The specific placement of the start and stop buttons, whether in the toolbar or plot region, is still under consideration.
-
-% \section{Plot Region}
-
-% The plot region displays the data window where measurements are shown.
-%  It is positioned in the middle of the screen and adapts to the opening and closing of the devices list or sidebar menu. 
-%  A visual representation of the data window is shown in Figure \ref{fig:datawindow}.
-
-%  The axis of the data window adapt to the connected device. The axis show the devices measurement unit on the y-axis as well as the time in seconds on the x-axis. 
-%  If more than one device with different measurement units is connected, there will be additional y-axis that can be edited seperately.
-
-% \begin{figure}
-% \includegraphics[width=.9\textwidth]{assets/pictures/Mainwindowopen.png}
-% \caption[]{A visual representation of the data window with a legend}
-% \label{fig:datawindow}
-% \end{figure}
-
-% While a measurement is being taken, the scale and size of the data window cannot be changed. After the measurement, the user can adjust the data window, including:
-% \begin{itemize}
-% \item Zooming in and out on both axes.
-% \item Adjusting the scale of the x- and y-axes.
-% \item Selecting and displaying a specific part of the data window.
-% \end{itemize}
-
-% Adjustments can be made using a mouse, mousepad, touchpad, or keyboard shortcuts. The user can also export the data window as a PDF.
-
-% \section{Sidebar Menu}
-
-% The sidebar menu, located on the left side of the application, can be expanded and closed via a side button. It contains five submenus, each with its own icon:
-% \begin{itemize}
-% \item Searching devices ("Suche Geräte")
-% \item Loading old data ("Daten hinzufügen")
-% \item Diagnostics ("Diagnose")
-% \item Settings ("Einstellungen")
-% \item Help ("Hilfe")
-% \end{itemize}
-% A visual representation of the sidebar menu is shown in Figure \ref{fig:sidebarMenu}.
-
-% \begin{figure}
-% \includegraphics[width=.9\textwidth]{assets/pictures/SideBarMenu.png}
-% \caption[]{A visual representation of the sidebar menu in its different states}
-% \label{fig:sidebarMenu}
-% \end{figure}
-
-% \subsection{Searching Devices}
-% The "Searching Devices" submenu contains a button that, when clicked, searches for connected devices. Found devices are displayed in the devices list menu, and connected OmnAIScopes light up in
-% different colors.
-
-% \subsection{Loading Old Data}
-% The "Loading Old Data" submenu contains a button that opens the "Load Old Data" popup window. Configurations for this popup window are detailed in Section \ref{cap:PopupWindow_loadoldata}.
-
-% \subsection{Diagnostics}
-% The Diagnostics button opens a popupwindow with options for different analyses or generating training data. The popupwindow and its functionality is described in section \ref{cap:Diagnostics}.
-
-% \subsection{Settings}
-% The Settingsbutton opens a popupwindow "Settings menu" described in Section \ref{cap:PopupWindow_settings}.
-
-% \subsection{Help Menu}
-% The Help button directs users to a website. Before accessing the website, a popup window asks for confirmation.
-
-% \section{Popup Windows}
-
-% This section describes the configuration and functionality of the various popup windows.
-
-% \subsubsection{Popup Window: Settings} \label{cap:PopupWindow_settings}
-
-% The Settings popup window allows users to customize the appearance and configuration of the OmnAIView interface. This window is divided into several sections:
-
-% \textbf{Setting ID}
-% \begin{itemize}
-%     \item Users can set their ID by writing it into the Input field. There should be a disclaimer that the ID can only be set once. 
-%     The ID will be written into the config. 
-% \end{itemize}
-
-% \textbf{Language options}
-% \begin{itemize}
-%   \item  Users can choose between different languages. Currently available are English and German. 
-% \end{itemize}
-
-% \textbf{Graphical options}
-
-% The following point should be in a TreeNode \textbf{Graphical Settings} [grafische Einstellungen]
-% \textbf{Theme Selection:}
-% \begin{itemize}
-%     \item Users can choose between different themes such as Light and Dark. Each theme should be visually distinct to accommodate various user preferences and needs.
-% \end{itemize}
-
-% \textbf{Font Settings:}
-% \begin{itemize}
-%     \item This section includes options to change the font type, size, and color. Users can preview the font changes in a sample text box before applying them.
-% \end{itemize}
-
-% At the end of the menu there is a save, back and rest button. The reset button allows users to revert all settings to the default configuration if needed. The back button will not change any settings.
-% The saves button applies the settings and saves them in the config, so the settings are still this way when the user opens the application again. 
-
-% \textbf{Reset to Default:}
-% \begin{itemize}
-%     \item 
-% \end{itemize}
-
-% \subsubsection{Popup Window: Load Old Data} \label{cap:PopupWindow_loadoldata}
-
-% The Load Old Data popup window first contains only one inputfield , a browse button right to it as well as a \textbf{Load all data} and back button. 
-% It provides three options for importing previously collected data:
-
-% \textbf{1. Manual Path Input:}
-% \begin{itemize}
-%     \item Users can manually enter the file path where the old data is stored in the input field.
-%     A text input field labeled "Path" is provided for this purpose.
-%      Above the input field, there is a text "Enter the path to your data" (Geben Sie den Pfad zu Ihren Daten ein).
-% \end{itemize}
-
-% \textbf{2. Browse Button:}
-% \begin{itemize}
-%     \item Users can also click on a "Browse" (Durchsuchen) button to open a file explorer window and navigate to the desired file location.
-%      The selected path is then displayed in the text input field.
-% \end{itemize}
-
-% \textbf{3. Drag and Drop:}
-% \begin{itemize}
-%     \item Alternatively, users can drag and drop a file directly into the application.
-%      A designated area labeled "Drag and drop your file here" (Ziehen Sie Ihre Datei hierher) is clearly marked in the window.
-% \end{itemize}
-
-% If the user wants to enter more than one file, under the existing inputfield there is a plus button. 
-
-% \textbf{Plus Button:}
-% \begin{itemize}
-%     When clicking on the plus button another inputfield and browse button appears under the current inputfield and browse button. This function should be recursive. 
-% \end{itemize}
-
-% After selecting the files the user can either go back with the back button, which deletes all their inputs or click on the \textbf{Load all data} button. 
-
-% \textbf{Load all data}
-% \begin{itemize}
-%     \item Once a path is entered or a file is selected, users can click the "Load" (Laden) button to import the data. 
-%     All data files should now be displayed in the \textbf{Found devices} section. 
-% \end{itemize}
-
-% How the loaded data can be used, is described in the chapter \ref{cap:UsingOldData}. 
+\chapter{The Idea of OmniView}
+OmniView is planned to be an omniscient data-visualization and analysis tool. 
+OmniView itself shouldn't need to know anything about any given data-producer at compile-time, but should still be able to visualize the produced information.
+OmniView itself shouldn't need to know anything about any given analysis-tool at compile-time, but should still be able to use an analysis-API. 
+In order for OmniView to work this way, there shall be a structured architectural approach, to enable modular development.
+This includes dataproducer devices as well as analysis-tools.
+
+\section[Modules]{Modules of OmniView and their Role}
+The Name OmniView actually only applies to the executable instance, that is in charge of displaying gathered data in a way similar to PicoScope or sigrok, whether it's live or archived data. 
+Since (well-designed) modularity can help keeping the complexity of a system in check, the greater OmniView-Architecture is a project of the Bochumer AI-Group.
+\\
+A oscilloscope-like user-interface is the most generic way, to display data as a function over time. 
+All measurement-values are a sample of a certain unit (sometimes even an SI-Unit) at a specific point in time, and thus projectable onto a plane with its unit in y- and the time in x-dimension. 
+Displaying a multitude of different y-dimensions in an oscillogram is a well-proven design and has been implemented in several data-recorder software-suites. 
+\\
+Incoming live-data into the view is delivered via a websocket connection.
+There won't be hard real-time guarantees in this interface. 
+This websocket is provided by an entity that implements the concept of an epoch-server.
+Soft real-time can be guaranteed to a certain extend in the internal structure of the epoch-server and its storage-interface.
+Due to the nature of live-updates of a GUI, new updates are being received on a regular basis and prepended to the n-1 dataset.
+Each update-object that contains data to be prepended, and displayed in the oscillogram is called a column. 
+It derives its name from the property, that it holds several values of different data-channels in parallel.
+The aggregation to a continuous stream of such pieces of information that belong to one channel is called a waveform. 
+\\
+An epoch-server has the ability to maintain multiple websocket connections, and an OmniView-Instance has the ability to maintain connections to multiple epoch-servers. 
+Before a view can instantiate a connection with a websocket, it queries the epoch-servers REST-API, to receive a structure know as possibility-list.
+This list contains all available devices, and all available transducers. 
+A transducer is a function that works as a filter.
+It implements a directed node, taking one or more waveforms as an input and having exactly one waveform as an output. 
+Using transducers, a so-called (processing-)route can be constructed. 
+A route is a directed graph composed from transducer-nodes. 
+For further investigation see \ref{chap:WaveformProcessingNetwork}.
+The structure inside the epoch server that defines which channels are being send out to a specific connection is called the connections visibility-list. 
+This list in combination with a checkbox will also be displayed in the view.
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
+    \caption{Overview of Modules}
+    \label{fig:Overview}
+\end{figure}
+
+\section[Greater Picture]{OmniView and its Role in the Greater Picture}
+Auto-Intern GmbH and their connected entities have been working on a unified architecture for measurement- and monitoring-devices since the early 2000s. 
+Integrating measurement-systems into larger architectures is by no means a trivial task.
+OmniView fits into the Grand-Unified-Monitoring-Architecture of Auto-Intern.
+
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/overview.pdf}
+    \caption[]{Brief overview of the proposed structure}
+    \label{fig:overview}
+\end{figure}
+
+
+There shall be a unified way to interact with an abstract data-producer.
+This includes devices such as:
+\begin{enumerate}
+    \item a USB-oscilloscope \gls{latex}
+    \item a TCP/IP client, sending a continuous stream
+    \item a USB-logic-analyzer
+    \item a random-number-generator
+    \item a filedescriptor
+\end{enumerate}
+
+Since it is not known at compile-time, which devices will be used at runtime, the code can't be linked statically into OmniView (or any other data-\gls{consumer} for that matter). 
+Therefor an interface shall be defined, that gets used by the consumer, but the implementation of the data-handling ought to be provided in a dynamically linked library. 
+From here on forward we will refer to this as \lstinline|DLL| even though \lstinline|.dll| and \lstinline|.so| are meant equally. 
+If a windows \lstinline|.dll| or a linux \lstinline|.so| is meant specifically, please use the terms \lstinline|.dll| or \lstinline|.so|, otherwise \lstinline|DLL|. 
+Be aware, that this \lstinline|DLL| does not necessarily constitue an aquivalent to an actual device-driver with a communication-channel to the systems kernel.
+\\
+It appears, that all dataproducers that are relevant for OmniView can be abstracted in a certain way, and thus share the same function-calls in a \lstinline|DLL|.
+There are three requirements:
+\begin{itemize}
+    \item Grabbing the next part of the data-stream asynchronusly
+    \item The data-producer providing meta-information about itself 
+    \item Send control-data from the consumer to the data-producer
+\end{itemize}
+This interprocess-communication comes with some additional hurdles.
+
+\section{Memory Management Ideology}
+Not only does OmniView not know about which devices will be connected at runtime, it also does neither know about the amount of devices that will be attached, nor does it know what data-rate the producers will provide.
+Due to this uncertainties, a strongly structured memory allocation ideology needs to be implemented in order to minimize error-prone sections in the applications code.
+
+
+\section[UaDI]{Unified abstract Data\-producer Interface}
+The \textit{Unified abstract Data\-producer Interface} is the protocol that specifies the interprocess\-communication between the con\-sumer and the device, using the \lstinline|DLL|. 
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{./assets/pictures/interface.pdf}
+    \caption[]{Coarse structure of the DLL-interface}
+    \label{fig:dllinterface}
+\end{figure}
+
+
+\input{producers.tex}
+\input{waveformprocessingnetwork.tex}
+\input{furtherDevl.tex}
+\section{User Interface}
+
+The following chapters describe the user interface of the omnAIView application, providing a detailed overview of its various components and their functionality. The design of these components is also introduced here, while a more thorough explanation of the design principles can be found in Chapter \ref{cap:Designprinciples}. All components should adhere to these principles. If there are any questions after reading the description, they can be added as issues for the FAQ.
+
+The user interface is currently implemented in C++, with plans to transition to JavaScript in a subsequent phase. This interface serves as a central hub for configuring connected devices, conducting measurements, saving data in various formats, displaying and analyzing the acquired data. Additionally, users can access an integrated Help Menu that directs them to a website providing comprehensive information about omnAIView and omnAIScope.
+
+The application is divided into four main regions: the Toolbar, the Sidebar Menu, the Plot Region, and the Devices Menu.
+
+\subsection{Basic Interface}
+
+The basic interface includes:
+\begin{itemize}
+\item A top bar featuring the company name, a save button, and start/stop measurement buttons.
+\item An adjustable window where data is displayed.
+\item A sidebar for:
+    \begin{itemize}
+    \item Searching devices
+    \item Loading old data
+    \item Diagnostics
+    \item Settings
+    \item Help
+    \end{itemize}
+\item A bottom window, which can be minimized, displaying connected devices and loaded data files.
+\item Several popup windows for functions such as analysis.
+\end{itemize}
+
+The size of the GUI should adapt to the screen size being used. The design is illustrated in Figure \ref{fig:GUI}.
+
+\begin{figure}[!h]
+\includegraphics[width=.9\textwidth]{./assets/pictures/DatawindowVersion1.0.png}
+\caption[]{A visual representation of the GUI interface with all menus selected}
+\label{fig:GUI}
+\end{figure}
+
+The language displayed in the pictures is German.
+
+Popup windows include:
+\begin{itemize}
+\item A window to load old data from the filesystem into the application.
+\item A window to save the measured data.
+\item A window to generate training data from loaded or measured data.
+\item A window to analyze loaded or measured data.
+\item A settings window.
+\item A window where the user can create a new case or load an old case 
+\end{itemize}
+This list is not exhaustive.
+ All popup windows should follow the same structure and design principles, which can be found in Chapter \ref{cap:Designprinciples}. 
+ An example of a popup window is shown in Chapter \ref{cap:Designprinciples_Popupwindows}.
+
+\section{Toolbar}
+
+The toolbar, displayed at the top of the program, contains the company logo on the left side, 
+a save button on the right side, and start/stop measurement buttons as well as a reset button in the middle. 
+The specific placement of the start and stop buttons is still under consideration. A visual representation of the toolbar is shown in Figure \ref{fig:toolbar}.
+
+\begin{figure}
+\includegraphics[width=.9\textwidth]{assets/pictures/Toolbar states.png}
+\caption[]{A visual representation of the toolbar with different buttons}
+\label{fig:toolbar}
+\end{figure}
+
+\subsection{Save Button}
+The save button, designed as an icon button according to the principles in Chapter \ref{cap:Designprinciples_PopupButtons},
+ writes the measurement (a waveform stack) to storage. The storage options include the computer's file system, a Database Management System (DBMS), or a Cloud platform.
+
+\subsubsection{User Story for the Save Button}
+\begin{itemize}
+\item \textbf{Visibility Before Measurement:} The save button should be prominently visible.
+\item \textbf{Greyed-out During Measurement:} While the measurement is in progress, the save button should appear greyed out.
+\item \textbf{Post-Measurement Access:} Upon completion of the measurement, the save button should be accessible.
+\item \textbf{Prompt Save Window:} Clicking the save button should open a window designed according to the principles in Chapter \ref{cap:Designprinciples_PopupWindow}.
+ A visual representation of the save window is shown in Figure \ref{fig:SavingWindow}.
+\end{itemize}
+
+\begin{figure}
+    \includegraphics[width=.9\textwidth]{assets/pictures/Popupwindow_png.png}
+    \caption[]{A visual representation of the Popupwindow: Saving}
+    \label{fig:SavingWindow}
+    \end{figure}
+
+\subsubsection{Save Window}
+The save window is divided into four sections:
+\begin{itemize}
+\item \textbf{Saving Path:} Users can choose a default path, manually enter a path, or select a path using a file browser.
+\item \textbf{Device Selection:} Users can select devices to save via a drop-down menu.
+\item \textbf{Additional Information:} Users can input the vehicle information (VIN, mileage) and select a vehicle type. Additionally they can input a measurement name.
+\item \textbf{Save or Cancel:} Users can either save the settings or cancel the menu. The data should be saved under the input path, as measurementname-omnAIscopeID. 
+\item \textbf{Saved file:} The saved file should be a .csv file. In the first line the metadata as well as the omnAIScopeID and the sampling rate should be saved. 
+                            Under that the waveform should be saved. 
+\end{itemize}
+
+\subsection{Reset Button}
+The reset button resets all measurements and reloads all connected devices. When pressed, a rotating symbol should appear until the app reconnects the devices and resets the data.
+This should not reset the data that was loaded extern. 
+
+\subsection{Start/Stop Button States}
+The specific placement of the start and stop buttons, whether in the toolbar or plot region, is still under consideration.
+
+\section{Plot Region}
+
+The plot region displays the data window where measurements are shown.
+ It is positioned in the middle of the screen and adapts to the opening and closing of the devices list or sidebar menu. 
+ A visual representation of the data window is shown in Figure \ref{fig:datawindow}.
+
+ The axis of the data window adapt to the connected device. The axis show the devices measurement unit on the y-axis as well as the time in seconds on the x-axis. 
+ If more than one device with different measurement units is connected, there will be additional y-axis that can be edited seperately.
+
+\begin{figure}
+\includegraphics[width=.9\textwidth]{assets/pictures/Mainwindowopen.png}
+\caption[]{A visual representation of the data window with a legend}
+\label{fig:datawindow}
+\end{figure}
+
+While a measurement is being taken, the scale and size of the data window cannot be changed. After the measurement, the user can adjust the data window, including:
+\begin{itemize}
+\item Zooming in and out on both axes.
+\item Adjusting the scale of the x- and y-axes.
+\item Selecting and displaying a specific part of the data window.
+\end{itemize}
+
+Adjustments can be made using a mouse, mousepad, touchpad, or keyboard shortcuts. The user can also export the data window as a PDF.
+
+\section{Sidebar Menu}
+
+The sidebar menu, located on the left side of the application, can be expanded and closed via a side button. It contains five submenus, each with its own icon:
+\begin{itemize}
+\item Searching devices ("Suche Geräte")
+\item Loading old data ("Daten hinzufügen")
+\item Diagnostics ("Diagnose")
+\item Settings ("Einstellungen")
+\item Help ("Hilfe")
+\end{itemize}
+A visual representation of the sidebar menu is shown in Figure \ref{fig:sidebarMenu}.
+
+\begin{figure}
+\includegraphics[width=.9\textwidth]{assets/pictures/SideBarMenu.png}
+\caption[]{A visual representation of the sidebar menu in its different states}
+\label{fig:sidebarMenu}
+\end{figure}
+
+\subsection{Searching Devices}
+The "Searching Devices" submenu contains a button that, when clicked, searches for connected devices. Found devices are displayed in the devices list menu, and connected OmnAIScopes light up in
+different colors.
+
+\subsection{Loading Old Data}
+The "Loading Old Data" submenu contains a button that opens the "Load Old Data" popup window. Configurations for this popup window are detailed in Section \ref{cap:PopupWindow_loadoldata}.
+
+\subsection{Diagnostics}
+The Diagnostics button opens a popupwindow with options for different analyses or generating training data. The popupwindow and its functionality is described in section \ref{cap:Diagnostics}.
+
+\subsection{Settings}
+The Settingsbutton opens a popupwindow "Settings menu" described in Section \ref{cap:PopupWindow_settings}.
+
+\subsection{Help Menu}
+The Help button directs users to a website. Before accessing the website, a popup window asks for confirmation.
+
+\section{Popup Windows}
+
+This section describes the configuration and functionality of the various popup windows.
+
+\subsubsection{Popup Window: Settings} \label{cap:PopupWindow_settings}
+
+The Settings popup window allows users to customize the appearance and configuration of the OmnAIView interface. This window is divided into several sections:
+
+\textbf{Setting ID}
+\begin{itemize}
+    \item Users can set their ID by writing it into the Input field. There should be a disclaimer that the ID can only be set once. 
+    The ID will be written into the config. 
+\end{itemize}
+
+\textbf{Language options}
+\begin{itemize}
+  \item  Users can choose between different languages. Currently available are English and German. 
+\end{itemize}
+
+\textbf{Graphical options}
+
+The following point should be in a TreeNode \textbf{Graphical Settings} [grafische Einstellungen]
+\textbf{Theme Selection:}
+\begin{itemize}
+    \item Users can choose between different themes such as Light and Dark. Each theme should be visually distinct to accommodate various user preferences and needs.
+\end{itemize}
+
+\textbf{Font Settings:}
+\begin{itemize}
+    \item This section includes options to change the font type, size, and color. Users can preview the font changes in a sample text box before applying them.
+\end{itemize}
+
+At the end of the menu there is a save, back and rest button. The reset button allows users to revert all settings to the default configuration if needed. The back button will not change any settings.
+The saves button applies the settings and saves them in the config, so the settings are still this way when the user opens the application again. 
+
+\textbf{Reset to Default:}
+\begin{itemize}
+    \item Pushing the reset button resets all items to the default value 
+\end{itemize}
+
+\subsubsection{Popup Window: Load Old Data} \label{cap:PopupWindow_loadoldata}
+
+The Load Old Data popup window first contains only one inputfield , a browse button right to it as well as a \textbf{Load all data} and back button. 
+It provides three options for importing previously collected data:
+
+\textbf{1. Manual Path Input:}
+\begin{itemize}
+    \item Users can manually enter the file path where the old data is stored in the input field.
+    A text input field labeled "Path" is provided for this purpose.
+     Above the input field, there is a text "Enter the path to your data" (Geben Sie den Pfad zu Ihren Daten ein).
+\end{itemize}
+
+\textbf{2. Browse Button:}
+\begin{itemize}
+    \item Users can also click on a "Browse" (Durchsuchen) button to open a file explorer window and navigate to the desired file location.
+     The selected path is then displayed in the text input field.
+\end{itemize}
+
+\textbf{3. Drag and Drop:}
+\begin{itemize}
+    \item Alternatively, users can drag and drop a file directly into the application.
+     A designated area labeled "Drag and drop your file here" (Ziehen Sie Ihre Datei hierher) is clearly marked in the window.
+\end{itemize}
+
+If the user wants to enter more than one file, under the existing inputfield there is a plus button. 
+
+\textbf{Plus Button:}
+\begin{itemize}
+   \item When clicking on the plus button another inputfield and browse button appears under the current inputfield and browse button. This function should be recursive. 
+\end{itemize}
+
+After selecting the files the user can either go back with the back button, which deletes all their inputs or click on the \textbf{Load all data} button. 
+
+\textbf{Load all data}
+\begin{itemize}
+    \item Once a path is entered or a file is selected, users can click the "Load" (Laden) button to import the data. 
+    All data files should now be displayed in the \textbf{Found devices} section. 
+\end{itemize}
+
+How the loaded data can be used, is described in the chapter \ref{cap:UsingOldData}. 
 
 % \subsubsection{Popup Window: Diagnostics}
 
@@ -919,6 +918,6 @@
 % %\end{itemize}
 
 
-% \printglossaries
+\printglossaries
 
-\end{document}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+\end{document}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
